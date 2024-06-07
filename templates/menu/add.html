@@ -1,0 +1,13 @@
+{% extends 'core/core.html' %} {% block content %} {% load crispy_forms_tags %}
+<div class="menu-add-section">
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="heading">Add a new menu item</div>
+    {{ form|crispy }}
+    <div class="submit-group">
+      <input class="submit-button" type="submit" value="Add" />
+      <a href="{% url 'menu' %}" class="cancel">Cancel</a>
+    </div>
+  </form>
+</div>
+{% endblock content %}

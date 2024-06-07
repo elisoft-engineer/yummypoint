@@ -1,0 +1,37 @@
+{% extends "core/core.html" %} {% load crispy_forms_tags %} {% load static %}
+{%block content %}
+<div class="contact-section">
+  <div class="contact-container">
+    <div class="left">
+      <div class="form">
+        <form method="post">
+          {% csrf_token %}
+          <h3>Leave a message</h3>
+          {{form|crispy}}
+          <div class="submit">
+            <input type="submit" value="Submit" />
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="right">
+      <div class="card">
+        <div class="left">Tel</div>
+        <div class="right">
+          <a href="tel:+254757241621">+254 757 241 621</a>
+        </div>
+      </div>
+      <div class="card">
+        <div class="left">Email</div>
+        <div class="right">
+          <a href="mailto:info@yummypoint.com">info@yummypoint.com</a>
+        </div>
+      </div>
+      <div class="card">
+        <div class="left">Open Hours</div>
+        <div class="right">Open 24/7</div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

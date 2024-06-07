@@ -1,0 +1,47 @@
+{% extends 'core/core.html' %} {% block content %} {% load crispy_forms_tags %}
+<section class="inventory-all-section">
+  <div class="heading">Inventory records</div>
+  <div class="table-container">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Name</th>
+          <th>Quantity</th>
+          <th>Price</th>
+          <th>Supplier</th>
+          <th>Update</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for record in inventory %}
+        <tr>
+          <td>{{ record.date }}</td>
+          <td>{{ record.name }}</td>
+          <td>{{ record.quantity }}</td>
+          <td>{{ record.price }}</td>
+          <td>{{ record.supplier.name }}</td>
+          <td>
+            <a href="{% url 'inventory_update' record.id %}" class="update"
+              >Update</a
+            >
+          </td>
+          <td>
+            <a href="{% url 'inventory_delete' record.id %}" class="delete"
+              >Delete</a
+            >
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <form method="post">
+    {% csrf_token %} {{ form|crispy }}
+    <div class="submit-group">
+      <input class="submit-button" type="submit" value="Add" />
+    </div>
+  </form>
+</section>
+{% endblock content %}

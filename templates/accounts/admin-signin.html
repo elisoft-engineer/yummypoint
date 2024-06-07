@@ -1,0 +1,14 @@
+{% extends 'core/core.html' %} {% block content %} {% load crispy_forms_tags %}
+<section class="signin-section">
+  <form method="post">
+    {% csrf_token %}
+    <div class="heading">
+      <h1>Sign In to your account</h1>
+    </div>
+    {{ form|crispy }} {% if error_msg %}
+    <div id="signin_error">{{error_msg}}</div>
+    {% endif %}
+    <input class="signin-button" type="submit" value="Sign In" />
+  </form>
+</section>
+{% endblock content %}

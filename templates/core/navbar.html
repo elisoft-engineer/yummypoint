@@ -1,0 +1,43 @@
+{% load static %}
+
+<nav class="navbar">
+  <a href="{% url 'index' %}" class="brand">
+    <img src="{% static 'logo.png' %}" alt="Yummy Point" />
+  </a>
+  <div id="main-nav" class="main">
+    <a href="{% url 'index' %}">Home</a>
+    <a href="{% url 'about' %}">About</a>
+    <a href="{% url 'menu' %}">Menu</a>
+    <a href="{% url 'contact' %}">Contact Us</a>
+  </div>
+  <div id="right-nav" class="right">
+    {% if request.session.theme == 'dark' %}
+    <a class="right-link theme" href="{% url 'set_theme' 'light' %}">
+      <span> <i class="fas fa-moon" aria-hidden="true"></i> </span>
+      dark
+    </a>
+    {% else %}
+    <a class="right-link theme" href="{% url 'set_theme' 'dark' %}">
+      <span> <i class="fas fa-sun" aria-hidden="true"></i> </span>
+      light
+    </a>
+    {% endif %} {% if request.user.is_authenticated %}
+    <a class="right-link" href="{% url 'account' %}" id="account">
+      <span> <i class="fas fa-user"></i> </span>
+      <div class="text">{{ request.user.username }}</div>
+    </a>
+    <a class="right-link" href="{% url 'signout' %}" id="signout">
+      <div class="text">Sign Out</div>
+      <span> <i class="fas fa-sign-out"></i> </span>
+    </a>
+    {% else %}
+    <a class="right-link" href="{% url 'signin' %}" id="signin">
+      <div class="text">Sign In</div>
+      <span> <i class="fas fa-sign-in"></i> </span>
+    </a>
+    {% endif %}
+  </div>
+  <div class="toggler">
+    <i class="fas fa-bars"></i>
+  </div>
+</nav>

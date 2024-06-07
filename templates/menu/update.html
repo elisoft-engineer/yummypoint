@@ -1,0 +1,13 @@
+{% extends 'core/core.html' %} {% block content %} {% load crispy_forms_tags %}
+<section class="inventory-update-section">
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="heading">Update Record</div>
+    {{ form|crispy }}
+    <div class="submit-group">
+      <input class="submit-button" type="submit" value="Update" />
+      <a href="{% url 'inventory_all' %}" class="cancel">Cancel</a>
+    </div>
+  </form>
+</section>
+{% endblock content %}

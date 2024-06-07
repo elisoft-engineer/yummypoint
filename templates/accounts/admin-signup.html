@@ -1,0 +1,18 @@
+{% extends 'core/core.html' %} {% block content %} {% load crispy_forms_tags %}
+<section class="signup-section">
+  <form method="post">
+    {% csrf_token %}
+    <div class="heading"><h1>Create an admin account</h1></div>
+    {{form|crispy}}
+    <div class="signup-group">
+      <input class="signup-button" type="submit" value="Sign Up" />
+    </div>
+    <div class="signin-group">
+      Already have an account?
+      <span
+        ><a class="signin-button" href="{% url 'admin-signin' %}">Sign In</a></span
+      >
+    </div>
+  </form>
+</section>
+{% endblock content %}

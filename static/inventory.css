@@ -1,0 +1,209 @@
+.inventory-all-section {
+  display: flex;
+  flex-direction: column;
+  margin-top: 70px;
+}
+
+.inventory-all-section .heading {
+  text-align: center;
+  color: #252525;
+  font-size: 1.15rem;
+  font-weight: 600;
+  border: 2px solid #0099aa;
+  padding: 10px;
+  width: 100%;
+  text-align: center;
+}
+
+.inventory-all-section .table-container {
+  overflow-x: auto;
+}
+
+.inventory-all-section .table-container .table {
+  width: 100%;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.inventory-all-section .table-container .table::-webkit-scrollbar {
+  width: 2px;
+}
+
+.inventory-all-section .table-container .table::-webkit-scrollbar-track {
+  background: #252525;
+}
+
+.inventory-all-section .table-container .table::-webkit-scrollbar-thumb {
+  background: #ffaa00;
+  border-radius: 2.5px;
+}
+
+.inventory-all-section .table-container .table::-webkit-scrollbar-thumb:hover {
+  background: #ffaa00;
+}
+
+.inventory-all-section .table-container .table tbody tr:nth-child(even) {
+  background-color: rgba(255, 170, 0, 0.3);
+}
+
+.inventory-all-section .table-container .table thead tr th {
+  color: #252525;
+  text-align: left;
+  padding: 10px;
+  background-color: #0099aa;
+}
+.inventory-all-section .table-container .table tbody tr td {
+  padding: 5px 5px;
+}
+
+.inventory-all-section .table-container .table tbody tr td a.update {
+  background-color: #ffaa00;
+  border-radius: 20px;
+  color: #252525;
+  padding: 5px;
+  border: none;
+}
+
+.inventory-all-section .table-container .table tbody tr td a.delete {
+  background-color: red;
+  border-radius: 20px;
+  color: #252525;
+  padding: 5px;
+  border: none;
+}
+
+.inventory-all-section form {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.inventory-all-section form label {
+  width: 98%;
+  margin-bottom: 5px;
+}
+
+.inventory-all-section form input.form-control {
+  padding: 5px;
+  border: 2px solid #ffaa00;
+  margin-right: 10px;
+  font-size: 1.1rem;
+  color: #252525;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.inventory-all-section form select.form-select {
+  border-radius: 5px;
+  padding: 5px;
+  color: #252525;
+  border: 2px solid #ffaa00;
+  border: none;
+  margin-top: 5px;
+}
+
+.inventory-all-section form .submit-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.inventory-all-section form .submit-group .submit-button {
+  background-color: #ffaa00;
+  border-radius: 5px;
+  color: #252525;
+  padding: 10px;
+  font-size: 1rem;
+  height: fit-content;
+  border: none;
+}
+
+.inventory-add-section,
+.inventory-update-section {
+  margin-top: 70px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+}
+
+.inventory-add-section .heading,
+.inventory-update-section .heading {
+  color: #252525;
+  background-color: rgba(255, 170, 0, 0.3);
+  font-weight: 600;
+  font-size: 1.15rem;
+  text-align: center;
+  padding: 5px;
+  flex-basis: 40%;
+}
+
+.inventory-add-section form,
+.inventory-update-section form {
+  display: flex;
+  flex-direction: column;
+}
+
+.inventory-add-section form label,
+.inventory-update-section form label {
+  width: 98%;
+  margin-bottom: 5px;
+}
+
+.inventory-add-section form input.form-control,
+.inventory-update-section form input.form-control {
+  width: 96%;
+  padding: 5px;
+  border: 2px solid #ffaa00;
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+  color: #252525;
+  margin-top: 5px;
+  margin-bottom: 15px;
+}
+
+.inventory-add-section form select.form-select,
+.inventory-update-section form select.form-select {
+  border-radius: 5px;
+  padding: 5px;
+  color: #252525;
+  border: 2px solid #ffaa00;
+  border: none;
+  margin-top: 5px;
+}
+
+.inventory-add-section form .submit-group,
+.inventory-update-section form .submit-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.inventory-add-section form .submit-group .submit-button,
+.inventory-update-section form .submit-group .submit-button {
+  background-color: #ffaa00;
+  border-radius: 20px;
+  color: #252525;
+  padding: 8px 12px;
+  font-size: 1rem;
+  border: none;
+}
+
+.inventory-add-section form .submit-group a,
+.inventory-update-section form .submit-group a {
+  background-color: #252525;
+  border-radius: 20px;
+  color: #ffaa00;
+  padding: 8px 12px;
+  font-size: 1rem;
+  border: none;
+}
+
+@media screen and (max-width: 767px) {
+  .inventory-all-section form {
+    display: none;
+  }
+}

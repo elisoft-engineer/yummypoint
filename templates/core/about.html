@@ -1,0 +1,36 @@
+{% extends 'core/core.html' %} {% load static %} {% block content %}
+<div class="about-section">
+  <div class="about-container">
+    <h1>About <span>Yummy Point</span></h1>
+    <div class="text">
+      Welcome to Yummy Point! We're your 24/7 destination for delicious eats and
+      unbeatable vibes. With a passion for flavor and a dedication to service,
+      we're here to satisfy your cravings anytime, day or night. Explore a world
+      of culinary delights with our diverse menu featuring dishes from around
+      the globe. From savory classics to exotic delicacies, we've curated a
+      selection that promises to tantalize your taste buds. So whether you're
+      craving comfort food or ready to embark on a flavor adventure, join us at
+      Yummy Point and let your taste buds dance! And remember, we're always open
+      to serve you whenever hunger strikes!
+    </div>
+
+    <div class="image">
+      {% if request.session.theme == 'dark' %}
+      <img src="{% static 'about-dark.png' %}" alt="about image" />
+      {% else %}
+      <img src="{% static 'about.png' %}" alt="about image" />
+      {% endif %}
+    </div>
+    <div class="info">
+      <div class="card">
+        <div class="left">Location</div>
+        <div class="right">Online(Delivery)</div>
+      </div>
+      <div class="card">
+        <div class="left">Hours</div>
+        <div class="right">Open 24/7</div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

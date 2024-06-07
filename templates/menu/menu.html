@@ -1,0 +1,77 @@
+{% extends 'core/core.html' %} {% block content %} {% load static %}
+<div class="menu-section">
+  <div class="row">
+    <div class="top-row">
+      <div class="top-section">
+        <div class="ball"></div>
+        <div class="ball"></div>
+      </div>
+      <div class="heading">
+        <h1>Our Menu</h1>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <nav class="categories">
+      <a href="{% url 'menu' %}" class="category-link"> All </a>
+      {% for category in categories %}
+      <a href="{% url 'menu_by_category' category.id %}" class="category-link">
+        {{ category.name }}
+      </a>
+      {% endfor %}
+    </nav>
+  </div>
+  <div class="row">
+    <div class="main-row">
+      <div class="items" id="menu-items-container">
+        {% for item in items %}
+        <div class="card-container">
+          <a href="{% url 'menu_item' item.id %}">
+            <div class="card">
+              <img
+                src="{{item.image.url}}"
+                alt="{{item.name}} image"
+                class="image"
+              />
+              <div class="name">{{ item.name }}</div>
+              <div class="price">Price :${{ item.price }}</div>
+              <div class="order">
+                <a href="{% url 'order' item.id %}" class="link">Order Now</a>
+              </div>
+            </div>
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+      <div class="orders">
+        {% if user.is_authenticated %}
+        <div class="cart">
+          <div class="image">
+            <img src="{% static 'cart-image.png' %}" alt="Cart Image" />
+          </div>
+          {% if user.orders.all %}
+          <div class="order-history">
+            <div class="heading">Your orders</div>
+            {% for order in user.orders.all %}
+            <div class="order-item">
+              <div class="name">{{order.item.name}}</div>
+              <div class="price">${{order.amount}}</div>
+              <div class="order-status">{{order.get_status_display}}</div>
+            </div>
+            {% endfor %}
+          </div>
+          {% else %}
+          <div class="info">You have no order history</div>
+          {% endif %}
+        </div>
+        {% else %}
+        <div class="not-logged">
+          <div class="info">Please sign in to see your orders</div>
+          <div class="link"><a href="{% url 'signin' %}">Sign In</a></div>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
