@@ -1,19 +1,21 @@
 from django.shortcuts import render, redirect
 from feedback.forms import ContactMessageForm
 from django.contrib import messages
-from django.views.generic import TemplateView
+from django.views.generic import View
+from django.utils.decorators import method_decorator
+from accounts.decorators import admin_required
 
-class Index(TemplateView):
+class Index(View):
     template_name = "core/index.html"
     def get(self, request, *args, **kwargs):
         return render(request, self.template_name, {"title" : "Home"})
 
-class About(TemplateView):
+class About(View):
     template_name = "core/about.html"
     def get(self, request, *args, **kwargs):
         return render(request, "core/about.html", {"title" : "About"})
 
-class Contact(TemplateView):
+class Contact(View):
     template_name = "core/contact.html"
     form_class = ContactMessageForm
 
@@ -30,6 +32,21 @@ class Contact(TemplateView):
             form.save()
             messages.success(request, f"Message sent successfully")
             return redirect('index')
+        
+class AdminDashboard(View):
+    template_name = "core/admin-dashboard.html"
+    admin = None
+
+    @method_decorator(admin_required)
+    def dispatch(self, request, admin=None, *args, **kwargs):
+        self.admin = admin
+        return super().dispatch()
+    
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name, {
+            "title" : "Admin Dashboard",
+            "admin" : self.admin,
+        })
         
 
 def set_theme(request, theme):

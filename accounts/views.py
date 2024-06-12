@@ -1,6 +1,5 @@
 from .forms import CustomerSignupForm, CustomerSigninForm, CustomerUpdateForm, AdminSignupForm, AdminUpdateForm, AdminSigninForm
 from .models import normalize_phone
-from .decorators import customer_required, admin_required
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import Group
@@ -8,9 +7,10 @@ from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.generic import View
-from django.utils.decorators import method_decorator
 from django.http import QueryDict
 from core import settings
+from django.utils.decorators import method_decorator
+from .decorators import customer_required, admin_required
 
 """
 customer authentication views ... CustomerSignup, CustomerSignin and CustomerUpdate
@@ -231,3 +231,20 @@ class Account(View):
                 "form" : form,
                 "title" : "Update Account",
             })
+        
+"""
+The following view handles the top up of the users wallet.
+"""
+class Topup(View):
+    customer = None
+
+    @method_decorator(customer_required)
+    def dispatch(self, request, customer=None, *args, **kwargs):
+        self.customer = customer
+        return super().dispatch(request, *args, **kwargs)
+    
+    def get(self, request, *args, **kwargs):
+        self.customer.wallet += 500
+        self.customer.save()
+        messages.success(request, "Topup of 500 successfully")
+        return redirect(reverse("account"))

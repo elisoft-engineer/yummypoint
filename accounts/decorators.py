@@ -43,7 +43,7 @@ def admin_required(view_func):
             return redirect(reverse(settings.ADMIN_LOGIN_URL))
         try:
             admin = Admin.objects.get(email=request.user.email)
-        except admin.DoesNotExist:
+        except Admin.DoesNotExist:
             messages.error(request, f"Access Denied")
             return redirect(request.get_full_path())
         return view_func(request, admin=admin, *args, **kwargs)

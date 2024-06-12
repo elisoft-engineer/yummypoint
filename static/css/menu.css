@@ -1,0 +1,380 @@
+.menu-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.menu-section .row {
+  margin: 0px 0px;
+  padding: 10px;
+  width: 100%;
+}
+
+.menu-section .row .top-row {
+  background-color: var(--primary-color);
+  padding: 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 70px;
+  border-radius: 10px 10px 0px 0px;
+}
+
+.menu-section .row .top-row .heading {
+  padding: 0px;
+  margin: 0px;
+}
+
+.menu-section .row .top-row .heading h1 {
+  padding: 0px;
+  margin: 0px;
+  color: var(--secondary-color);
+}
+
+.menu-section .row .top-row .top-section {
+  background-color: var(--background-color);
+  top: 0%;
+  height: 20px;
+  width: 200px;
+  translate: 0px -2px;
+  border-radius: 0px 0px 15px 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.menu-section .row .top-row .top-section .ball {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--primary-color);
+  margin: 0px 10px;
+}
+
+.menu-section .row .categories {
+  position: sticky;
+  display: flex;
+  flex-direction: row;
+  padding: 0%;
+  padding-bottom: 15px;
+  justify-content: space-between;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.menu-section .row .categories .category-link {
+  display: inline-block;
+  font-weight: 600;
+  color: var(--text-color);
+  border: 2px solid var(--text-color);
+  padding: 8px;
+  border-radius: 20px;
+  margin: 0px 5px;
+}
+
+.menu-section .row .categories::-webkit-scrollbar {
+  width: 2px;
+}
+
+.menu-section .row .categories::-webkit-scrollbar-track {
+  background: var(--text-color);
+}
+
+.menu-section .row .categories::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+  border-radius: 2.5px;
+}
+
+.menu-section .row .categories::-webkit-scrollbar-thumb:hover {
+  background: var(--border-color);
+}
+
+.menu-section .row .categories .category-link:hover {
+  color: var(--primary-color);
+  border: 2px solid var(--primary-color);
+  transition: 0.3s all ease;
+}
+
+.menu-section .row .main-row {
+  display: flex;
+  flex-direction: row;
+  height: 70vh;
+  overflow-y: scroll;
+}
+
+.menu-section .row .main-row .items {
+  flex-basis: 80%;
+  display: grid;
+  grid-template-rows: auto;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.menu-section .row .main-row::-webkit-scrollbar {
+  width: 5px;
+}
+
+.menu-section .row .main-row::-webkit-scrollbar-track {
+  background: var(--complementary-color);
+}
+
+.menu-section .row .main-row::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+}
+
+.menu-section .row .main-row::-webkit-scrollbar-thumb:hover {
+  background: var(--background-color);
+}
+
+.menu-section .row .main-row .items .card-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  padding: 10px;
+}
+
+.menu-section .row .main-row .items .card-container .card {
+  flex-basis: 80%;
+  padding: 0px;
+  border-radius: 20px;
+  height: fit-content;
+  background-color: rgba(255, 170, 0, 0.3); /* Adjust as needed */
+  padding-bottom: 5px;
+}
+
+.menu-section .row .main-row .items .card-container .card:hover {
+  scale: 1.05;
+  transition: all 0.25s ease;
+}
+
+.menu-section .row .main-row .items .card-container .card img {
+  position: relative;
+  border-radius: 20px 20px 0px 0px;
+  width: 100%;
+}
+
+.menu-section .row .main-row .items .card-container .card .name {
+  color: var(--text-color);
+  font-weight: 600;
+  position: relative;
+  font-size: 0.9rem;
+  text-overflow: ellipsis;
+  text-align: center;
+}
+
+.menu-section .row .main-row .items .card-container .card .price {
+  color: var(--complementary-color);
+  font-weight: 600;
+  text-align: center;
+}
+
+.menu-section .row .main-row .items .card-container .card .order {
+  padding: 10px;
+  text-align: center;
+}
+
+.menu-section .row .main-row .items .card-container .card .link {
+  font-weight: 600;
+  color: var(--text-color);
+  padding: 8px;
+  border: none;
+  background-color: var(--primary-color);
+  border-radius: 16px;
+}
+.menu-section .row .main-row .items .card-container .card .link:hover {
+  box-shadow: 0px 1px 2px var(--primary-color);
+  transition: all 0.3s ease;
+}
+
+.menu-section .row .main-row .orders {
+  border: 2px solid var(--primary-color);
+  border-radius: 20px;
+  padding: 5px;
+  height: fit-content;
+  position: sticky;
+  top: 0;
+  align-self: flex-start;
+  flex-basis: 20%;
+}
+
+.menu-section .row .main-row .orders .not-logged .info {
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: var(--text-color);
+}
+
+.menu-section .row .main-row .orders .not-logged .link {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.menu-section .row .main-row .orders .not-logged .link a {
+  font-weight: 600;
+  color: var(--text-color);
+  padding: 10px;
+  border: none;
+  background-color: var(--primary-color);
+  border-radius: 20px;
+}
+
+.menu-section .row .main-row .orders .not-logged .link a:hover {
+  background-color: var(--text-color);
+  color: var(--background-color);
+  transition: 0.3s all ease;
+}
+
+.menu-section .row .main-row .orders .cart .image {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.menu-section .row .main-row .orders .cart .image img {
+  position: relative;
+  width: 60%;
+}
+
+.menu-section .row .main-row .orders .cart i {
+  color: var(--primary-color);
+  font-size: 2rem;
+  font-weight: 600;
+  border: none;
+}
+
+.menu-section .row .main-row .orders .cart .info {
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.menu-section .row .main-row .orders .heading {
+  color: var(--text-color);
+  font-weight: 600;
+  text-align: center;
+}
+
+.menu-section .row .main-row .orders .order-item {
+  margin-top: 20px;
+}
+
+.menu-section .row .main-row .orders .order-item .name {
+  font-weight: 500;
+  color: var(--complementary-color);
+}
+
+.menu-section .row .main-row .orders .order-item .status {
+  font-weight: 500;
+  color: var(--background-color);
+}
+
+.menu-section .row .main-row .orders .order-item .price {
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--text-color);
+}
+
+.menu-add-section,
+.menu-update-section {
+  margin-top: 70px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+}
+
+.menu-add-section .heading,
+.menu-update-section .heading {
+  color: var(--text-color);
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.menu-add-section .top-row,
+.menu-update-section .top-row {
+  background-color: var(--primary-color);
+  padding: 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 70px;
+}
+
+.menu-add-section .top-row .heading,
+.menu-update-section .top-row .heading {
+  padding: 0px;
+  margin: 0px;
+}
+
+.menu-add-section .top-row .heading h1,
+.menu-update-section .top-row .heading h1 {
+  padding: 0px;
+  margin: 0px;
+}
+
+.menu-add-section .top-row .top-section,
+.menu-update-section .top-row .top-section {
+  background-color: var(--background-color);
+  top: 0%;
+  height: 20px;
+  width: 200px;
+  translate: 0px -2px;
+  border-radius: 0px 0px 15px 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.menu-add-section .top-row .top-section .ball,
+.menu-update-section .top-row .top-section .ball {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--primary-color);
+  margin: 0px 10px;
+}
+
+.menu-add-section form .form-group,
+.menu-update-section form .form-group {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.menu-add-section form .form-group .label,
+.menu-update-section form .form-group .label {
+  width: 90%;
+  text-align: left;
+  color: var(--text-color);
+  margin-bottom: 5px;
+}
+
+.menu-add-section form .form-group .input,
+.menu-update-section form .form-group .input {
+  width: 90%;
+  padding: 10px;
+  border: 2px solid var(--primary-color);
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+
+.menu-add-section form .form-group .btn,
+.menu-update-section form .form-group .btn {
+  width: 30%;
+  font-weight: 600;
+  color: var(--text-color);
+  padding: 10px;
+  border: none;
+  background-color: var(--primary-color);
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+
+.menu-add-section form .form-group .btn:hover,
+.menu-update-section form .form-group .btn:hover {
+  background-color: var(--text-color);
+  color: var(--background-color);
+  transition: 0.3s all ease;
+}

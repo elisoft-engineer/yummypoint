@@ -88,6 +88,7 @@ class CustomerSigninForm(forms.Form):
                 cleaned_data['email_or_phone'] = customer.email
             except Customer.DoesNotExist:
                 self.add_error(None, ValidationError("Wrong  email / phone  or password"))
+                return cleaned_data
 
         """
         During the customer or admin authebtication, we can't tell the user the 
@@ -114,7 +115,7 @@ class AdminSignupForm(forms.ModelForm):
     confirm_password = forms.CharField(widget=forms.PasswordInput())
     class Meta:
         model = Admin
-        fields = ['email', 'password', 'confirm_password']
+        fields = ['email', 'employee_id', 'password', 'confirm_password']
         widgets = {
             'password' : forms.PasswordInput(),
         }

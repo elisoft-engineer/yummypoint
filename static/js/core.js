@@ -44,3 +44,22 @@ window.onload = () => {
     statusElement.classList.add(`status-${status}`);
   });
 };
+
+document.addEventListener('DOMContentLoaded', function() {
+  const themeToggle = document.querySelector('#theme-toggle');
+  
+  if (themeToggle) {
+    themeToggle.addEventListener('click', function() {
+      const currentTheme = document.body.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      document.body.setAttribute('data-theme', newTheme);
+      
+      fetch(`/set-theme/${newTheme}/`)
+        .then(response => response.json())
+        .then(data => {
+          console.log('Theme updated:', data);
+        });
+    });
+  }
+});
+

@@ -34,7 +34,7 @@
                 class="image"
               />
               <div class="name">{{ item.name }}</div>
-              <div class="price">Price :${{ item.price }}</div>
+              <div class="price">Price :KES{{ item.price }}</div>
               <div class="order">
                 <a href="{% url 'order' item.id %}" class="link">Order Now</a>
               </div>
@@ -47,7 +47,7 @@
         {% if user.is_authenticated %}
         <div class="cart">
           <div class="image">
-            <img src="{% static 'cart-image.png' %}" alt="Cart Image" />
+            <img src="{% static 'images/cart-image.png' %}" alt="Cart Image" />
           </div>
           {% if user.orders.all %}
           <div class="order-history">
@@ -55,7 +55,7 @@
             {% for order in user.orders.all %}
             <div class="order-item">
               <div class="name">{{order.item.name}}</div>
-              <div class="price">${{order.amount}}</div>
+              <div class="price">KES {{order.amount}}</div>
               <div class="order-status">{{order.get_status_display}}</div>
             </div>
             {% endfor %}

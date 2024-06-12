@@ -14,6 +14,7 @@ urlpatterns = [
     path('set_theme/<str:theme>/', core_views.set_theme, name='set_theme'),
     path('403/', core_views.access_denied, name='access_denied'),
     path('404/', core_views.not_found, name='not_found'),
+    path('admin-dashboard/', core_views.AdminDashboard.as_view(), name="admin-dashboard"),
     #app urls
     path('accounts/', include('accounts.urls')),
     path('menu/', include('menu.urls')),

@@ -1,3 +1,10 @@
+/* inventory.css */
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
 .inventory-all-section {
   display: flex;
   flex-direction: column;
@@ -6,13 +13,12 @@
 
 .inventory-all-section .heading {
   text-align: center;
-  color: #252525;
+  color: var(--text-color);
   font-size: 1.15rem;
   font-weight: 600;
-  border: 2px solid #0099aa;
+  border: 2px solid var(--complementary-color);
   padding: 10px;
   width: 100%;
-  text-align: center;
 }
 
 .inventory-all-section .table-container {
@@ -30,16 +36,16 @@
 }
 
 .inventory-all-section .table-container .table::-webkit-scrollbar-track {
-  background: #252525;
+  background: var(--text-color);
 }
 
 .inventory-all-section .table-container .table::-webkit-scrollbar-thumb {
-  background: #ffaa00;
+  background: var(--border-color);
   border-radius: 2.5px;
 }
 
 .inventory-all-section .table-container .table::-webkit-scrollbar-thumb:hover {
-  background: #ffaa00;
+  background: var(--border-color);
 }
 
 .inventory-all-section .table-container .table tbody tr:nth-child(even) {
@@ -47,19 +53,21 @@
 }
 
 .inventory-all-section .table-container .table thead tr th {
-  color: #252525;
+  color: var(--text-color);
   text-align: left;
   padding: 10px;
-  background-color: #0099aa;
+  background-color: var(--complementary-color);
 }
+
 .inventory-all-section .table-container .table tbody tr td {
   padding: 5px 5px;
+  color: var(--text-color);
 }
 
 .inventory-all-section .table-container .table tbody tr td a.update {
-  background-color: #ffaa00;
+  background-color: var(--border-color);
   border-radius: 20px;
-  color: #252525;
+  color: var(--text-color);
   padding: 5px;
   border: none;
 }
@@ -67,7 +75,7 @@
 .inventory-all-section .table-container .table tbody tr td a.delete {
   background-color: red;
   border-radius: 20px;
-  color: #252525;
+  color: var(--text-color);
   padding: 5px;
   border: none;
 }
@@ -86,10 +94,11 @@
 
 .inventory-all-section form input.form-control {
   padding: 5px;
-  border: 2px solid #ffaa00;
+  border: 2px solid var(--border-color);
   margin-right: 10px;
   font-size: 1.1rem;
-  color: #252525;
+  color: var(--text-color);
+  background-color: var(--background-color);
   margin-top: 5px;
   margin-bottom: 5px;
 }
@@ -97,8 +106,9 @@
 .inventory-all-section form select.form-select {
   border-radius: 5px;
   padding: 5px;
-  color: #252525;
-  border: 2px solid #ffaa00;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  border: 2px solid var(--border-color);
   border: none;
   margin-top: 5px;
 }
@@ -111,9 +121,9 @@
 }
 
 .inventory-all-section form .submit-group .submit-button {
-  background-color: #ffaa00;
+  background-color: var(--border-color);
   border-radius: 5px;
-  color: #252525;
+  color: var(--text-color);
   padding: 10px;
   font-size: 1rem;
   height: fit-content;
@@ -132,7 +142,7 @@
 
 .inventory-add-section .heading,
 .inventory-update-section .heading {
-  color: #252525;
+  color: var(--text-color);
   background-color: rgba(255, 170, 0, 0.3);
   font-weight: 600;
   font-size: 1.15rem;
@@ -157,10 +167,11 @@
 .inventory-update-section form input.form-control {
   width: 96%;
   padding: 5px;
-  border: 2px solid #ffaa00;
+  border: 2px solid var(--border-color);
   margin-bottom: 10px;
   font-size: 1.1rem;
-  color: #252525;
+  color: var(--text-color);
+  background-color: var(--background-color);
   margin-top: 5px;
   margin-bottom: 15px;
 }
@@ -169,8 +180,9 @@
 .inventory-update-section form select.form-select {
   border-radius: 5px;
   padding: 5px;
-  color: #252525;
-  border: 2px solid #ffaa00;
+  color: var(--text-color);
+  border: 2px solid var(--border-color);
+  background-color: var(--card-background);
   border: none;
   margin-top: 5px;
 }
@@ -184,9 +196,9 @@
 
 .inventory-add-section form .submit-group .submit-button,
 .inventory-update-section form .submit-group .submit-button {
-  background-color: #ffaa00;
+  background-color: var(--border-color);
   border-radius: 20px;
-  color: #252525;
+  color: var(--text-color);
   padding: 8px 12px;
   font-size: 1rem;
   border: none;
@@ -194,9 +206,9 @@
 
 .inventory-add-section form .submit-group a,
 .inventory-update-section form .submit-group a {
-  background-color: #252525;
+  background-color: var(--text-color);
   border-radius: 20px;
-  color: #ffaa00;
+  color: var(--border-color);
   padding: 8px 12px;
   font-size: 1rem;
   border: none;

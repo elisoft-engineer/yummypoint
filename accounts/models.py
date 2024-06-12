@@ -85,6 +85,7 @@ class Customer(User):
     address = models.TextField(null=True, blank=True)
     first_name = models.CharField(max_length=150, blank=True)
     last_name = models.CharField(max_length=150, blank=True)
+    wallet = models.DecimalField(decimal_places=2, max_digits=10, validators=[MinValueValidator(0.00)], default=0.00)
     image = models.ImageField(upload_to="accounts/profile", default="accounts/profile/default.png")
 
     def phone_to_python(self):

@@ -1,15 +1,16 @@
+/* static/css/navbar.css */
 .navbar {
-  top: 0%;
-  left: 0%;
+  top: 0;
+  left: 0;
   position: fixed;
   width: 100%;
   z-index: 99;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #252525;
-  width: 100%;
-  padding: 2px 0px;
+  background-color: var(--background-color);
+  padding: 2px 0;
+  box-shadow: 0 1px 2px var(--border-color);
 }
 
 .navbar .brand img {
@@ -19,14 +20,14 @@
 
 .navbar .toggler {
   display: none;
-  border: 3px solid #ffaa00;
+  border: 3px solid var(--border-color);
   padding: 5px;
   border-radius: 5px;
   margin-right: 10px;
 }
 
 .navbar .toggler i {
-  color: #ffaa00;
+  color: var(--border-color);
 }
 
 .navbar .main {
@@ -36,16 +37,16 @@
 }
 
 .navbar .main a {
-  color: #ffffff;
+  color: var(--text-color);
   font-size: 1.1rem;
   padding: 5px 10px;
-  margin: 0px 10px;
+  margin: 0 10px;
   cursor: pointer;
   font-weight: 600;
 }
 
 .navbar .main a:hover {
-  color: #ffaa00;
+  color: var(--border-color);
 }
 
 .navbar .right {
@@ -55,7 +56,7 @@
 }
 
 .navbar .right a#signout {
-  color: #0099aa;
+  color: var(--text-color);
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -64,25 +65,25 @@
 }
 
 .navbar .right a#signout i {
-  color: #0099aa;
+  color: var(--complementary-color);
   font-size: 2rem;
-  margin: 0px 5px;
+  margin: 0 5px;
 }
 
 .navbar .right a#signin {
-  color: #0099aa;
-  background-color: #0099aa;
+  color: var(--text-color);
+  background-color: var(--complementary-color);
   display: flex;
   flex-direction: row;
   align-items: center;
   border-radius: 20px;
-  padding: 0px 10px;
+  padding: 0 10px;
   font-weight: 600;
   margin-left: 10px;
 }
 
 .navbar .right a#signin i {
-  color: #ffaa00;
+  color: var(--border-color);
   font-size: 2rem;
   margin-left: 5px;
 }
@@ -94,24 +95,24 @@
 }
 
 .navbar .right a#account i {
-  color: #0099aa;
+  color: var(--complementary-color);
   font-size: 2rem;
-  margin: 0px 5px;
+  margin: 0 5px;
 }
 
 .navbar .right .right-link {
-  margin: 0px 10px;
+  margin: 0 10px;
 }
 
 .navbar .right a#account .text {
-  color: #ffaa00;
+  color: var(--border-color);
   font-size: 1.1rem;
   font-weight: 600;
   border-radius: 5px;
 }
 
 .navbar .right a#account:hover {
-  color: #ffffff;
+  color: var(--text-color);
 }
 
 .navbar .right a .text {
@@ -123,8 +124,8 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  color: #0099aa;
-  border: 2px solid#0099aa;
+  color: var(--complementary-color);
+  border: 2px solid var(--complementary-color);
   border-radius: 20px;
   padding: 5px;
 }
@@ -154,20 +155,20 @@
   .navbar .main-responsive a {
     padding: 10px;
     width: 100%;
-    color: #0099aa;
+    color: var(--complementary-color);
     font-size: 1.05rem;
     cursor: pointer;
     font-weight: 600;
     display: flex;
     justify-content: center;
-    border-bottom: 2px solid #0099aa;
-    background-color: #252525;
+    border-bottom: 2px solid var(--complementary-color);
+    background-color: var(--background-color);
   }
 
   .navbar .main-responsive a:hover {
-    background-color: #ffaa00;
-    color: #ffffff;
-    border-bottom: 2px solid #ffffff;
+    background-color: var(--border-color);
+    color: var(--text-color);
+    border-bottom: 2px solid var(--text-color);
   }
 
   .navbar .toggler {

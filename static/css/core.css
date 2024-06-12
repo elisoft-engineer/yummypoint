@@ -1,3 +1,5 @@
+/* core.css */
+
 h1,
 h2,
 h3,
@@ -13,7 +15,6 @@ div {
 body {
   overflow-x: hidden;
   width: 100%;
-  background-color: #252525;
 }
 
 input[type="submit"] {
@@ -37,17 +38,17 @@ input[type="submit"] {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #252525;
+  color: var(--text-color);
   font-weight: 600;
   border: none;
 }
 
 .message-success {
-  background-color: #0099aa;
+  background-color: var(--complementary-color);
 }
 
 .message-error {
-  background-color: #ff0000;
+  background-color: var(--error-color);
 }
 
 .message-info {
@@ -58,22 +59,22 @@ input[type="submit"] {
   text-align: center;
   height: fit-content;
   border-radius: 4px;
-  color: #252525;
+  color: var(--text-color);
 }
 
 .status-pending {
-  background-color: #ffff00;
-  color: #252525;
+  background-color: var(--warning-color);
+  color: var(--text-color);
 }
 
 .status-paid {
-  background-color: #0099aa;
-  color: #252525;
+  background-color: var(--complementary-color);
+  color: var(--text-color);
 }
 
 .status-cancelled {
-  background-color: #ff0000;
-  color: #252525;
+  background-color: var(--error-color);
+  color: var(--text-color);
 }
 
 .container {
@@ -92,6 +93,7 @@ input[type="submit"] {
   margin-bottom: 20px;
   padding: 40px 0px;
   border-radius: 20px;
+  background-color: var(--core-transparent-bg);
   height: 80vh;
   width: 100%;
 }
@@ -109,22 +111,22 @@ input[type="submit"] {
 }
 
 .home-section .left .first {
-  color: #ffffff;
-  font-size: 1.2rem;
+  color: var(--text-color);
+  font-size: 1.5rem;
 }
 
 .home-section .left .first span {
-  color: #ffaa00;
+  color: var(--complementary-color);
 }
 
 .home-section .left .second {
-  color: #ffffff;
+  color: var(--text-color);
   font-weight: 600;
 }
 
 .home-section .left .third a {
-  color: #252525;
-  background-color: #ffaa00;
+  color: var(--secondary-color);
+  background-color: var(--primary-color);
   padding: 10px;
   border-radius: 20px;
   line-height: 80px;
@@ -132,10 +134,10 @@ input[type="submit"] {
 }
 
 .home-section .left .third a:hover {
-  color: #ffaa00;
-  background-color: #252525;
-  border: 2px solid #ffaa00;
+  color: var(--complementary-color);
+  background-color: var(--background-color);
   padding: 8px;
+  border: 2px solid var(--complementary-color);
   transition: background-color 0.3s ease;
 }
 
@@ -159,8 +161,8 @@ input[type="submit"] {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin-top: 40px;
+  margin-bottom: 40px;
   border-radius: 10px;
   width: 100%;
 }
@@ -175,22 +177,21 @@ input[type="submit"] {
 .about-section .about-container h1 {
   width: 100;
   text-align: center;
-  color: #252525;
+  color: var(--text-color);
   padding: 8px;
-  border-bottom: 2px solid #ffaa00;
-  background-color: rgba(255, 170, 0, 1);
+  border-bottom: 2px solid var(--primary-color);
+  background-color: var(--core-transparent-bg);
   margin: 0%;
   margin-bottom: 20px;
   width: 100%;
-  font-size: 1.2rem;
 }
 
 .about-section .about-container h1 span {
-  color: #0099aa;
+  color: var(--complementary-color);
 }
 
 .about-section .about-container .text {
-  color: #ffffff;
+  color: var(--text-color);
   font-weight: 600;
   padding: 5px;
   line-height: 25px;
@@ -228,8 +229,7 @@ input[type="submit"] {
 .about-section .about-container .info .card .left {
   border-radius: 5px;
   padding: 8px;
-  border: 2px solid #ffffff;
-  color: #ffffff;
+  border: 2px solid var(--text-color);
   font-weight: 600;
   text-align: center;
 }
@@ -238,8 +238,8 @@ input[type="submit"] {
   padding: 8px;
   font-weight: 600;
   text-align: center;
-  color: #0099aa;
-  border: 2px solid #0099aa;
+  color: var(--complementary-color);
+  border: 2px solid var(--complementary-color);
 
   border-radius: 5px;
   margin-left: 20px;
@@ -255,7 +255,7 @@ input[type="submit"] {
 }
 
 .contact-section .contact-container {
-  background-image: url("contact-us.jpeg");
+  background-image: url("../images/contact-us.jpeg");
   background-size: cover;
   background-repeat: no-repeat;
   flex-basis: 80%;
@@ -279,7 +279,7 @@ input[type="submit"] {
   border-radius: 4px;
   padding: 8px;
   text-align: center;
-  color: #ffaa00;
+  color: var(--primary-color);
 }
 
 .contact-container .left form .form-control {
@@ -295,7 +295,7 @@ input[type="submit"] {
 }
 
 .contact-container .left form label.requiredField {
-  color: #ffaa00;
+  color: var(--primary-color);
   font-weight: 700;
   padding: 10px 0px;
   margin-bottom: 10px;
@@ -303,8 +303,8 @@ input[type="submit"] {
 }
 
 .contact-container .left form input[type="submit"] {
-  color: #252525;
-  background-color: #ffaa00;
+  color: var(--text-color);
+  background-color: var(--primary-color);
   padding: 10px;
   border-radius: 4px;
   font-weight: 600;
@@ -337,10 +337,10 @@ input[type="submit"] {
 }
 
 .contact-section .contact-container .right .card .right a {
-  color: #0099aa;
+  color: var(--complementary-color);
   padding: 10px;
   font-weight: 600;
-  background-color: #ffaa00;
+  background-color: var(--primary-color);
   border-radius: 20px;
   width: fit-content;
   border: none;
@@ -362,8 +362,8 @@ input[type="submit"] {
   width: 100%;
   text-align: center;
   width: fit-content;
-  border-bottom: 2px dashed #ffaa00;
-  color: #ff0000;
+  border-bottom: 2px dashed var(--primary-color);
+  color: var(--error-color);
   margin-bottom: 20px;
   padding: 10px;
 }
@@ -394,7 +394,7 @@ input[type="submit"] {
   .home-section {
     flex-direction: column;
     align-items: center;
-    background-color: #252525;
+    background-color: var(--background-color);
   }
 
   .home-section div.left,
@@ -404,6 +404,7 @@ input[type="submit"] {
     width: 80%;
     margin: 20px 0px;
     border-radius: 20px;
+    background-color: var(--core-transparent-bg);
   }
 
   .home-section .left .second {
@@ -430,12 +431,13 @@ input[type="submit"] {
   .home-section {
     flex-direction: column;
     align-items: center;
-    background-color: #252525;
+    background-color: var(--background-color);
   }
 
   .home-section div.left,
   .home-section div.right {
     border-radius: 20px;
+    background-color: var(--core-transparent-bg);
     justify-content: flex-start;
     align-items: flex-start;
     width: 90%;
@@ -467,12 +469,13 @@ input[type="submit"] {
   .home-section {
     flex-direction: column;
     align-items: center;
-    background-color: #252525;
+    background-color: var(--background-color);
   }
 
   .home-section div.left,
   .home-section div.right {
     border-radius: 20px;
+    background-color: var(--core-transparent-bg);
     justify-content: flex-start;
     align-items: flex-start;
     width: 98%;
@@ -508,12 +511,13 @@ input[type="submit"] {
   .home-section {
     flex-direction: column;
     align-items: center;
-    background-color: #252525;
+    background-color: var(--background-color);
   }
 
   .home-section div.left,
   .home-section div.right {
     border-radius: 20px;
+    background-color: var(--core-transparent-bg);
     justify-content: flex-start;
     align-items: flex-start;
     width: 98%;

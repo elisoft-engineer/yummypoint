@@ -1,3 +1,5 @@
+/* auth.css */
+
 .signin-section {
   top: 0;
   left: 0;
@@ -20,6 +22,7 @@
   font-weight: bold;
   text-align: center;
   color: #252525;
+  background-color: var(--complementary-color);
   padding: 0%;
 }
 
@@ -27,7 +30,6 @@
   font-size: 1.3rem;
   padding: 10px;
   margin: 20px 0px;
-  background-color: rgba(255, 170, 0, 0.3);
 }
 
 .signin-section form .form-group {
@@ -90,7 +92,7 @@ small#hint_id_password1.form-text.text-muted ul {
 }
 
 .signin-section .signup-button:hover {
-  color: #0099aa;
+  color: var(--complementary-color);
 }
 
 .signup-section {
@@ -127,7 +129,7 @@ small#hint_id_password1.form-text.text-muted ul {
   font-size: 1.3rem;
   padding: 5px;
   margin: 10px 0px;
-  background-color: #0099aa;
+  background-color: var(--complementary-color);
 }
 
 div#div_id_password1.mb-3 ul {
@@ -175,7 +177,7 @@ label.form-label.requiredField {
 }
 
 .signup-section .invalid-feedback {
-  color: #0099aa;
+  color: var(--complementary-color);
   font-size: small;
 }
 
@@ -186,7 +188,7 @@ label.form-label.requiredField {
   border-radius: 5px;
   padding: 8px;
   color: #252525;
-  background-color: #0099aa;
+  background-color: var(--complementary-color);
   transition: all 0.25s ease;
   width: 100%;
 }
@@ -198,7 +200,7 @@ label.form-label.requiredField {
 
 .signup-section .signin-button {
   text-decoration: none;
-  color: #0099aa;
+  color: var(--complementary-color);
 }
 
 .signup-section .signin-button:hover {
@@ -275,7 +277,7 @@ p#error_3_id_password2 {
 }
 
 .account-section .about .info .value {
-  color: #0099aa;
+  color: var(--complementary-color);
   font-weight: 600;
   font-size: 1rem;
   margin: 10px 0px;
@@ -298,7 +300,7 @@ p#error_3_id_password2 {
 }
 
 .account-section .about .info .wallet .amount {
-  color: #0099aa;
+  color: var(--complementary-color);
   padding: 10px;
   text-align: center;
   font-weight: 600;
@@ -434,7 +436,7 @@ p#error_3_id_password2 {
   font-weight: 500;
   width: 96%;
   padding: 7.5px;
-  border: 2px solid #0099aa;
+  border: 2px solid var(--complementary-color);
   color: #252525;
   margin-bottom: 10px;
 }
@@ -446,7 +448,7 @@ p#error_3_id_password2 {
   font-weight: 500;
   width: 96%;
   padding: 7.5px;
-  border: 2px solid #0099aa;
+  border: 2px solid var(--complementary-color);
   color: #252525;
   margin-bottom: 10px;
 }

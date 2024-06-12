@@ -1,61 +1,72 @@
 {% extends 'core/core.html' %} {% block content %} {% load crispy_forms_tags %}
 <section class="account-section">
+  
   <div class="about">
-    <div class="image">
-      <img src="{{user.profile.image.url}}" alt="User Profile Image" />
-    </div>
-    <div class="info">
-      <div class="value">{{ user.first_name }} {{ user.last_name }}</div>
-      <div class="value">{{ user.email }}</div>
-      <div class="wallet">
-        <div class="heading"><h3>Wallet</h3></div>
-        {% if user.wallet.amount is None %}
-        <div class="amount">$ 0</div>
-        {% else %}
-        <div class="amount">$ {{user.wallet.amount}}</div>
-        {% endif %}
-        <div class="add"><a href="{% url 'topup' %}">Top up</a></div>
+    {% if user.is_customer %}
+      <div class="image">
+        <img src="{{user.profile.image.url}}" alt="Customer Profile Image" />
       </div>
-    </div>
-  </div>
-
-  <div class="orders">
-    <div class="heading">
-      <h3>Order History</h3>
-      <a href="{% url 'pay_all' %}">Pay All</a>
-    </div>
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Item</th>
-          <th>Price</th>
-          <th>Status</th>
-          <th>Pay</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for order in user.orders.all %}
-        <tr>
-          <td>{{ order.date }}</td>
-          <td>{{ order.item.name }}</td>
-          <td>{{ order.amount }}</td>
-          <td class="order-status">{{ order.get_status_display }}</td>
-          {% if order.status == order_status_pending %}
-          <td class="pay"><a href="{% url 'pay' order.id %}">Pay Now</a></td>
+    {% endif %}
+    <div class="info">
+      <div class="value">{{ user.email }}</div>
+      {% if user.is_customer %}
+        <div class="value">{{ user.first_name }} {{ user.last_name }}</div>
+        <div class="value">{{ user.phone }}</div>
+        <div class="wallet">
+          <div class="heading"><h3>Wallet</h3></div>
+          {% if user.wallet is None %}
+          <div class="amount">KES 0</div>
+          {% else %}
+          <div class="amount">KES {{user.wallet}}</div>
           {% endif %}
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+          <div class="add"><a href="{% url 'topup' %}">Top up</a></div>
+        </div>
+      {% else %}
+        <div class="value">{{ user.employee_id }}</div>
+      {% endif %}
+    </div>
   </div>
+        
+  {% if user.is_customer %}
+    <div class="orders">
+      <div class="heading">
+        <h3>Order History</h3>
+        <a href="{% url 'pay_all' %}">Pay All</a>
+      </div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Item</th>
+            <th>Price</th>
+            <th>Status</th>
+            <th>Pay</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for order in user.orders.all %}
+          <tr>
+            <td>{{ order.date }}</td>
+            <td>{{ order.item.name }}</td>
+            <td>{{ order.amount }}</td>
+            <td class="order-status">{{ order.get_status_display }}</td>
+            {% if order.status == order_status_pending %}
+            <td class="pay"><a href="{% url 'pay' order.id %}">Pay Now</a></td>
+            {% endif %}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% endif %}
+
   <div class="form">
     <form method="post" enctype="multipart/form-data">
       {% csrf_token %}
       <div>
         <h1 class="heading">Update your account</h1>
       </div>
-      {{ uform|crispy }} {{ pform|crispy }}
+      {{ form|crispy }}
       <div class="form-group">
         <input class="update-button" type="submit" value="Update" />
       </div>
