@@ -1,11 +1,18 @@
 from pathlib import Path
-import os
+import os, environ
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-slsqmj!*(tnzow-e9(c)$-bx!pu#8on=^nrd(%qvt0^0=9mv#3'
+env = environ.Env(
+    DEBUG = (bool, False)
+)
 
-DEBUG = True
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+
+DEBUG = env('DEBUG')
+
+SECRET_KEY = env('SECRET_KEY')
 
 ALLOWED_HOSTS = []
 
@@ -64,14 +71,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'core.wsgi.application'
 
 DATABASES = {
-    'default': {
-        'ENGINE' : 'django.db.backends.postgresql',
-        'NAME' : 'yummypoint',
-        'USER' : 'elisoft',
-        'PASSWORD' : 'proxysoft',
-        'HOST' : 'localhost',
-        'PORT' : '5432',
-    }
+    'default': env.db()
 }
 
 AUTH_USER_MODEL = "accounts.User"
@@ -110,10 +110,6 @@ MEDIA_URL = "/media/"
 STATICFILES_DIRS = [BASE_DIR/"static"]
 
 STATIC_URL = '/static/'
-
-handler403 = 'core.views.access_denied'
-
-handler404 = 'core.views.not_found'
 
 CUSTOMER_LOGIN_URL = 'signin'
 

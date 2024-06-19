@@ -170,7 +170,7 @@ class Signout(View):
             return redirect(reverse('menu'))
         email = user.email
         logout(request)
-        messages.info(request, "No user logged in")
+        messages.info(request, f"{email} logged out")
         return redirect(reverse('index'))
 
 

@@ -7,7 +7,10 @@
   --card-background: #ffffff;
   --error-color: #ff0000;
   --warning-color: #ffff00;
+  --success-color: #00ff00;
   --core-transparent-bg: rgba(255, 170, 0, 0.5);
+  --form-text-color: #ffffff00;
+  --dark-green: #107700;
 }
 
 [data-theme="dark"] {

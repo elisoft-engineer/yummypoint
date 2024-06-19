@@ -24,6 +24,7 @@ def customer_required(view_func):
     def wrapper(request, *args, **kwargs):
         if not request.user.is_authenticated:
             request.session["next"] = request.get_full_path()
+            print(request.session["next"])
             messages.error(request, "You need to login as a customer before proceeding")
             return redirect(reverse(settings.CUSTOMER_LOGIN_URL))
         try:

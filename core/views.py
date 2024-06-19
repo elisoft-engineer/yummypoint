@@ -54,9 +54,3 @@ def set_theme(request, theme):
     if theme in ['light', 'dark']:
         request.session['theme'] = theme
     return redirect(prev_url)
-    
-def access_denied(request):
-    return render(request, "core/403.html", {"title" : "403 | Access Denied"})
-
-def not_found(request):
-    return render(request, "core/404.html", {"title" : "404 | Not Found"})
