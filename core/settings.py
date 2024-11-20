@@ -71,7 +71,14 @@ TEMPLATES = [
 WSGI_APPLICATION = 'core.wsgi.application'
 
 DATABASES = {
-    'default': env.db()
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': env('DB_NAME'),
+        'USER': env('DB_USER'),
+        'PASSWORD': env('DB_PASSWORD'),
+        'HOST': env('DB_HOST'),
+        'PORT': env('DB_PORT')
+    }
 }
 
 AUTH_USER_MODEL = "accounts.User"
@@ -113,8 +120,8 @@ STATIC_URL = '/static/'
 
 CUSTOMER_LOGIN_URL = 'signin'
 
-ADMIN_LOGIN_URL = 'admin-signin'
-
 CUSTOMER_LOGIN_REDIRECT = 'menu'
+
+ADMIN_LOGIN_URL = 'admin-signin'
 
 ADMIN_LOGIN_REDIRECT = 'admin-dashboard'
