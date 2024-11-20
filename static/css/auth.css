@@ -22,14 +22,14 @@
   font-weight: bold;
   text-align: center;
   color: var(--text-color);
-  background-color: var(--complementary-color);
   padding: 0%;
 }
 
 .signin-section form .heading h1 {
-  font-size: 1.3rem;
+  font-size: 1rem;
   padding: 10px;
   margin: 20px 0px;
+  border: 1px dashed var(--complementary-color);
 }
 
 .signin-section form .form-group {
@@ -51,18 +51,20 @@ div#login_form-group_err_msg {
 }
 
 .signin-section .form-control {
-  font-size: 1.1rem;
-  font-weight: 500;
+  font-size: 1rem;
   width: 96%;
   padding: 7.5px;
-  border: 2px solid var(--primary-color);
+  border: 1px solid var(--primary-color);
+  background-color: var(--background-color);
   color: var(--text-color);
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+  font-family: inherit;
 }
 
 .signin-section label.requiredField {
   color: var(--text-color);
   font-size: small;
+  margin-bottom: 20px;
 }
 
 small#hint_id_password1.form-text.text-muted ul {
@@ -77,12 +79,18 @@ small#hint_id_password1.form-text.text-muted ul {
   border-radius: 5px;
   padding: 10px;
   color: var(--background-color);
-  background-color: var(--secondary-color);
+  background-color: var(--primary-color);
   transition: all 0.25s ease;
 }
 
 .signin-section .signin-button:hover {
   background-color: var(--secondary-color);
+  color: var(--primary-color);
+}
+
+.signin-section .other,
+.signup-section .signin-group {
+  font-size: 0.8rem;
 }
 
 .signin-section .signup-button {
@@ -125,10 +133,10 @@ small#hint_id_password1.form-text.text-muted ul {
 }
 
 .signup-section form .heading h1 {
-  font-size: 1.3rem;
+  font-size: 1rem;
   padding: 5px;
   margin: 10px 0px;
-  background-color: var(--complementary-color);
+  border: 1px dashed var(--complementary-color);
 }
 
 div#div_id_password1.mb-3 ul {
@@ -146,7 +154,7 @@ div#id_password2_helptext.form-text {
   padding: 10px;
 }
 
-label.form-label.requiredField {
+label.form-label {
   color: var(--text-color);
   font-size: small;
 }
@@ -159,18 +167,22 @@ label.form-label.requiredField {
   color: var(--text-color);
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: flex-start;
+  padding-left: 10px;
 }
 
 .signup-section .form-control{
   font-size: 18px;
   width: 95%;
   color: var(--text-color);
+  background-color: var(--background-color);
+  font-size: 1rem;
   padding: 7.5px;
   margin-top: 10px;
   outline: none;
-  border: 2px solid var(--secondary-color);
+  border: 1px solid var(--primary-color);
+  font-family: inherit;
 }
 
 .signup-section .invalid-feedback {
@@ -180,7 +192,7 @@ label.form-label.requiredField {
 
 .signup-section .signup-button {
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 0.9rem;
   border: none;
   border-radius: 5px;
   padding: 8px;
@@ -191,8 +203,8 @@ label.form-label.requiredField {
 }
 
 .signup-section .signup-button:hover {
-  box-shadow: 1px 1px 5px var(--background-color);
-  color: var(--background-color);
+  background-color: var(--secondary-color);
+  color: var(--complementary-color);
 }
 
 .signup-section .signin-button {
@@ -293,7 +305,7 @@ p#error_3_id_password2 {
   padding: 5px;
   text-align: center;
   font-weight: 600;
-  font-size: 1.2rem;
+  font-size: 1rem;
 }
 
 .account-section .about .info .wallet .amount {
@@ -301,7 +313,7 @@ p#error_3_id_password2 {
   padding: 10px;
   text-align: center;
   font-weight: 600;
-  font-size: 1.2rem;
+  font-size: 1rem;
   background-color: var(--text-color);
   border-radius: 5px;
   margin: 0px 5px;
@@ -332,7 +344,7 @@ p#error_3_id_password2 {
   margin: 0%;
   text-align: center;
   font-weight: 600;
-  font-size: 1.2rem;
+  font-size: 1rem;
 }
 
 .account-section .orders .heading a {
@@ -340,7 +352,7 @@ p#error_3_id_password2 {
   border: 2px solid var(--dark-green);
   padding: 5px 20px;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 0.9rem;
   border-radius: 5px;
 }
 
@@ -376,10 +388,11 @@ p#error_3_id_password2 {
 }
 
 .account-section .orders .table thead tr th {
-  color: var(--text-color);
+  color: var(--secondary-color);
   text-align: left;
   padding: 10px;
   background-color: var(--primary-color);
+  font-size: 1rem;
 }
 .account-section .orders .table tbody tr td {
   padding: 5px 5px;
@@ -408,8 +421,9 @@ p#error_3_id_password2 {
 
 .account-section .form form .heading {
   color: var(--text-color);
-  font-size: 1.35rem;
-  font-weight: 600;
+  font-size: 1.1rem;
+  border: 1px dashed var(--primary-color);
+  padding: 10px;
   padding-bottom: 5px;
   text-transform: capitalize;
   text-align: center;
@@ -428,22 +442,13 @@ p#error_3_id_password2 {
   color: var(--primary-color);
 }
 
-.account-section .form form #div_id_image #id_image.form-control {
-  font-size: 1.1rem;
-  font-weight: 500;
-  width: 96%;
+.account-section .form .form-control,
+.account-section .form #id_image.form-control {
+  font-size: 1rem;
+  font-family: inherit;
+  width: 98%;
   padding: 7.5px;
-  border: 2px solid var(--complementary-color);
-  color: var(--text-color);
-  margin-bottom: 10px;
-}
-
-.account-section .form .form-control {
-  font-size: 1.1rem;
-  font-weight: 500;
-  width: 96%;
-  padding: 7.5px;
-  border: 2px solid var(--complementary-color);
+  border: 1px solid var(--complementary-color);
   color: var(--text-color);
   margin-bottom: 10px;
   background-color: var(--background-color);
@@ -451,7 +456,6 @@ p#error_3_id_password2 {
 
 .account-section .form form label {
   font-size: 0.8rem;
-  font-weight: 600;
 }
 
 .account-section .form .update-button {
@@ -461,7 +465,7 @@ p#error_3_id_password2 {
   border: none;
   border-radius: 5px;
   padding: 10px;
-  color: var(--complementary-color);
+  color: var(--background-color);
   background-color: var(--primary-color);
   transition: all 0.25s ease;
 }
