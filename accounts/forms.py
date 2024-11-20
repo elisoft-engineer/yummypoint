@@ -104,7 +104,7 @@ class CustomerSigninForm(forms.Form):
 class CustomerUpdateForm(forms.ModelForm):
     class Meta:
         model = Customer
-        fields = ['email', 'phone', 'first_name', 'last_name','address']
+        fields = ['email', 'phone', 'first_name', 'last_name', 'image', 'address']
 
 
 """
