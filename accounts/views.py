@@ -176,61 +176,41 @@ class Signout(View):
 
 class Account(View):
     template_name = "accounts/account.html"
-    user = None
-    form_class = None
+    form_class = CustomerUpdateForm
+    customer = None
 
-    def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            messages.error(request, "You are not logged in")
-            return redirect(reverse("menu"))
-        if request.user.is_admin:
-            self.form_class = AdminUpdateForm
-        else:
-            self.form_class = CustomerUpdateForm
+    @method_decorator(customer_required)
+    def dispatch(self, request, customer=None, *args, **kwargs):
+        self.customer = customer
         return super().dispatch(request, *args, **kwargs)
         
 
     def get(self, request, *args, **kwargs):
         return render(request, self.template_name, {
             "title" : "Update Account",
-            "form" : self.form_class(instance=self.user),
+            "form" : self.form_class(instance=self.customer),
         })
     
     def post(self, request, *args, **kwargs):
-        if self.user.is_admin:
-            form = self.form_class(request.POST, instance=self.admin)
-            if form.is_valid():
-                form.save()
-                messages.success(request, "Account updated successfully")
-                return redirect(reverse("account"))
-            return render(request, self.template_name, {
-                "title" : "Update Account",
-                "form" : form
-            })
-        else:
-            """
-            Normalizing the phone is crucial for the customers to avoid inconsistencies. 
-            This leads to the need for changing the form data before it goes for 
-            validation.
-            """
-            mutable_data = request.POST.copy()
-            phone = mutable_data["phone"]
-            mutable_data["phone"] = normalize_phone(phone)
-            """
-            change the data back to a query dict for it to be pushed to a form as the 
-            data
-            """
-            modified_query_dict = QueryDict(mutable_data.urlencode(), mutable=True)
-            # initialize the form with the changed data
-            form = self.form_class(data=modified_query_dict, instance=self.customer)
-            if form.is_valid():
-                form.save()
-                messages.success(request, "Account updated successfully")
-                return redirect(reverse("account"))
-            return render(request, self.template_name, {
-                "form" : form,
-                "title" : "Update Account",
-            })
+        
+        mutable_data = request.POST.copy()
+        phone = mutable_data["phone"]
+        mutable_data["phone"] = normalize_phone(phone)
+        """
+        change the data back to a query dict for it to be pushed to a form as the 
+        data
+        """
+        modified_query_dict = QueryDict(mutable_data.urlencode(), mutable=True)
+        # initialize the form with the changed data
+        form = self.form_class(data=modified_query_dict, instance=self.customer)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Account updated successfully")
+            return redirect(reverse("account"))
+        return render(request, self.template_name, {
+            "form" : form,
+            "title" : "Update Account",
+        })
         
 """
 The following view handles the top up of the users wallet.
