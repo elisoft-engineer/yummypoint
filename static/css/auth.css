@@ -438,15 +438,11 @@ p#error_3_id_password2 {
   color: var(--background-color);
 }
 
-.account-section .form form #div_id_image a {
-  color: var(--primary-color);
-}
-
 .account-section .form .form-control,
 .account-section .form #id_image.form-control {
   font-size: 1rem;
   font-family: inherit;
-  width: 98%;
+  width: 97%;
   padding: 7.5px;
   border: 1px solid var(--complementary-color);
   color: var(--text-color);
@@ -454,8 +450,13 @@ p#error_3_id_password2 {
   background-color: var(--background-color);
 }
 
+.account-section .form #div_id_image .form-control {
+  border: none;
+}
+
 .account-section .form form label {
   font-size: 0.8rem;
+  color: var(--complementary-color);
 }
 
 .account-section .form .update-button {
@@ -587,7 +588,7 @@ p#error_3_id_password2 {
   }
 
   .signup-section form {
-    flex-basis: 70%;
+    flex-basis: 80%;
     margin: 110px 0px;
     padding: 9px;
     display: grid;
@@ -666,6 +667,10 @@ p#error_3_id_password2 {
 
   .signin-section .alert-error {
     font-size: 14px;
+  }
+
+  .signin-section .alert-block ul li {
+    color: var(--error-color);
   }
 
   .signup-section form {
@@ -780,7 +785,6 @@ p#error_3_id_password2 {
 
   .signup-section form .heading {
     font-size: 1rem;
-    font-weight: 600;
   }
 
   .signup-section form input[type="text"],
@@ -815,5 +819,9 @@ p#error_3_id_password2 {
   }
   .account-section .about {
     flex-direction: column;
+  }
+
+  .account-section .form .form-control {
+    width: 95%;
   }
 }
