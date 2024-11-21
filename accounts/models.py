@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseU
 from django.utils import timezone
 from uuid import uuid4
 from django.core.validators import MinValueValidator
+from phonenumber_field.modelfields import PhoneNumberField
 
 """
 After overriding the default user model, we implement the UserManager for this new 
@@ -64,24 +65,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     def is_customer(self):
         return self.groups.filter(name="Customer").exists()
 
-"""
-Since the default django model fields do not include a phone field, we have to 
-create on that emulates a typical phone number that stores both the territory code 
-and the number
-"""
-
-class PhoneField(models.CharField):
-    def __init__(self, *args, **kwargs):
-        kwargs.setdefault('max_length', 20)
-        super().__init__(*args, **kwargs)
-    
-    def get_prep_value(self, value):
-        if value is None:
-            return value
-        return ''.join(value)
 
 class Customer(User):
-    phone = PhoneField(max_length=20, unique=True, null=True, blank=True)
+    phone = PhoneNumberField(region='KE', unique=True)
     address = models.TextField(null=True, blank=True)
     first_name = models.CharField(max_length=150, blank=True)
     last_name = models.CharField(max_length=150, blank=True)
@@ -98,20 +84,3 @@ class Customer(User):
     
 class Admin(User):
     employee_id = models.IntegerField(validators=[MinValueValidator(1)], unique=True)
-
-
-"""
-Normalizing the phone is crucial for the customers to avoid inconsistencies. For 
-example, '+254 757 241 621', '+254757241621' and '254757241621', all mean the same 
-number '254757241621'
-"""
-def normalize_phone(phone):
-    phone = str(phone).split(' ')
-    phone = list(n for n in ''.join(phone))
-    if phone[0] == '+':
-        phone = ''.join(phone[1:])
-    else:
-        phone = ''.join(phone)
-    return phone
-
-
