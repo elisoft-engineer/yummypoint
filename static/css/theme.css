@@ -1,6 +1,6 @@
 :root {
   --primary-color: #ffbb00;
-  --complementary-color: #42b90a;
+  --complementary-color: #2bc90b;
   --background-color: #ffffff;
   --text-color: #252525;
   --secondary-color: #252525;
@@ -16,6 +16,8 @@
 [data-theme="dark"] {
   --background-color: #252525;
   --text-color: #ffffff;
+  --primary-color: #fffb00;
+  --complementary-color: #42b90a;
   --secondary-color: #404040;
   --card-background: #404040;
   --core-transparent-bg: rgba(255, 170, 0, 0);
