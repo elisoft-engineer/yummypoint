@@ -2,11 +2,9 @@
 <section class="account-section">
   
   <div class="about">
-    {% if user.is_customer %}
-      <div class="image">
-        <img src="{{user.profile.image.url}}" alt="Customer Profile Image" />
-      </div>
-    {% endif %}
+    <div class="image">
+      <img src="{{user.profile.image.url}}" alt="Customer Profile Image" />
+    </div>
     <div class="info">
       <div class="value">{{ user.email }}</div>
       {% if user.is_customer %}
