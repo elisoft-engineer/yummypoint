@@ -16,6 +16,11 @@ django-jazzmin = "^3.0.1"
 pillow = "^11.0.0"
 psycopg2 = "^2.9.10"
 django-enumfields = "^2.1.1"
+django-phonenumber-field = "^8.0.0"
+django-ipware = "^7.0.1"
+geoip2 = "^4.8.1"
+phonenumbers = "^8.13.50"
+django-cleanup = "^9.0.0"
 
 
 [build-system]
