@@ -1,5 +1,4 @@
 from .forms import CustomerSignupForm, CustomerSigninForm, CustomerUpdateForm, AdminSignupForm, AdminUpdateForm, AdminSigninForm
-from .models import normalize_phone
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import Group
@@ -40,6 +39,9 @@ class CustomerSignup(View):
             """
             customer = form.save(commit=False) 
             customer.password = hashed_password
+
+            customer.phone.region = request.region_code if request.region_code else 'KE'
+
             customer.save()
             customer_group, created = Group.objects.get_or_create(name='Customer')
             customer.groups.add(customer_group)
@@ -192,17 +194,7 @@ class Account(View):
         })
     
     def post(self, request, *args, **kwargs):
-        
-        mutable_data = request.POST.copy()
-        phone = mutable_data["phone"]
-        mutable_data["phone"] = normalize_phone(phone)
-        """
-        change the data back to a query dict for it to be pushed to a form as the 
-        data
-        """
-        modified_query_dict = QueryDict(mutable_data.urlencode(), mutable=True)
-        # initialize the form with the changed data
-        form = self.form_class(data=modified_query_dict, instance=self.customer)
+        form = self.form_class(request.POST, request.FILES, instance=self.customer)
         if form.is_valid():
             form.save()
             messages.success(request, "Account updated successfully")
