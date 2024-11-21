@@ -2,7 +2,10 @@ from django import forms
 from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import MinimumLengthValidator, NumericPasswordValidator, UserAttributeSimilarityValidator, CommonPasswordValidator
 from django.core.exceptions import ValidationError
-from .models import Customer, Admin, normalize_phone
+from django.core.validators import validate_email
+from .models import Customer, Admin
+from phonenumber_field.phonenumber import PhoneNumber
+import phonenumbers
 
 """
 This file contains all the forms used in this app. They handle creation, signin as 
@@ -28,12 +31,17 @@ class CustomerSignupForm(forms.ModelForm):
         if Customer.objects.filter(email=cleaned_data["email"]).exists():
             self.add_error("email", ValidationError("customer with that email already exists"))
 
-        # normalize the phone before validating
-        phone = normalize_phone(cleaned_data.get('phone'))
-        cleaned_data["phone"] = phone
-
-        if Customer.objects.filter(phone=cleaned_data["phone"]).exists():
-            self.add_error("phone", ValidationError("customer with that phone already exists"))
+        phone = cleaned_data.get("phone")
+        if phone:
+            try:
+                phone_number = PhoneNumber.from_string(phone.as_e164, None)
+                normalized_phone = phone_number.as_e164
+                cleaned_data["phone"] = normalized_phone
+            except phonenumbers.phonenumberutil.NumberParseException:
+                self.add_error("phone", ValidationError("Invalid phone number"))
+            else:
+                if Customer.objects.filter(phone=normalized_phone).exists():
+                    self.add_error("phone", ValidationError("customer with that phone already exists"))
 
         # the passwords must match, be alphanumeric
 
@@ -72,33 +80,27 @@ class CustomerSigninForm(forms.Form):
             # we convert the credential to str so that we can check if its an email
             cred = str(cleaned_data['email_or_phone'])
         except ValueError:
-            self.add_error(None, ValidationError("Error converting credential"))
+            self.add_error(None, ValidationError("Invalid Credentials"))
 
-        if not cred.__contains__('@'):
+        try:
+            validate_email(cred)
+            cleaned_data["email_or_phone"] = cred
+        except ValidationError:
             try:
-                #normalize the phone before starting validation
-                cred = normalize_phone(cred)
-                customer = Customer.objects.get(phone=cred)
                 """
-                We return the cleaned data having an email even when a user types a
-                phone. This is due to the nature of the authenticate function. It 
-                authenticates the users across the User model and in our case the 
+                We return the cleaned data having an email even when a user types a phone. This is due to the nature 
+                of the authenticate function. It authenticates the users across the User model and in our case the 
                 phone field is only in the customer model.
                 """
-                cleaned_data['email_or_phone'] = customer.email
+                customer = Customer.objects.get(phone=cred)
+                cleaned_data["email_or_phone"] = customer.email
             except Customer.DoesNotExist:
-                self.add_error(None, ValidationError("Wrong  email / phone  or password"))
+                self.add_error(None, ValidationError("Invalid Credentials"))
                 return cleaned_data
 
-        """
-        During the customer or admin authebtication, we can't tell the user the 
-        actual credential error for more user account safety. This increases the 
-        difficulty in unauthorized user access. incase of any error we keep 
-        displaying 'Wrong  email / phone  or password'
-        """
         customer = authenticate(email=cleaned_data["email_or_phone"], password=password)
         if customer is None:
-            self.add_error(None, ValidationError("Wrong  email / phone  or password"))
+            self.add_error(None, ValidationError("Invalid Credentials"))
         return cleaned_data
 
 class CustomerUpdateForm(forms.ModelForm):
