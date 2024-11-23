@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     'menu.apps.MenuConfig',
     'feedback.apps.FeedbackConfig',
     'orders.apps.OrdersConfig',
+    'panel.apps.PanelConfig',
     'jazzmin',
     'crispy_forms',
     'crispy_bootstrap5',
@@ -109,8 +110,6 @@ USE_I18N = True
 
 USE_TZ = True
 
-STATIC_URL = 'static/'
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
@@ -127,4 +126,4 @@ CUSTOMER_LOGIN_REDIRECT = 'menu'
 
 ADMIN_LOGIN_URL = 'admin-signin'
 
-ADMIN_LOGIN_REDIRECT = 'admin-dashboard'
+ADMIN_LOGIN_REDIRECT = 'dashboard'
