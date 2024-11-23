@@ -33,21 +33,6 @@ class Contact(View):
             messages.success(request, f"Message sent successfully")
             return redirect('index')
         
-class AdminDashboard(View):
-    template_name = "core/admin-dashboard.html"
-    admin = None
-
-    @method_decorator(admin_required)
-    def dispatch(self, request, admin=None, *args, **kwargs):
-        self.admin = admin
-        return super().dispatch()
-    
-    def get(self, request, *args, **kwargs):
-        return render(request, self.template_name, {
-            "title" : "Admin Dashboard",
-            "admin" : self.admin,
-        })
-        
 
 def set_theme(request, theme):
     prev_url = request.META.get('HTTP_REFERER')
