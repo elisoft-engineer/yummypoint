@@ -32,6 +32,10 @@
   border: 1px dashed var(--complementary-color);
 }
 
+.signin-section .form .alert ul li{
+  color: var(--error-color);
+}
+
 .signin-section form .form-group {
   margin: 10px 0px;
   display: flex;
@@ -186,7 +190,7 @@ label.form-label {
 }
 
 .signup-section .invalid-feedback {
-  color: var(--complementary-color);
+  color: var(--error-color);
   font-size: small;
 }
 
@@ -223,17 +227,6 @@ label.form-label {
   border-radius: 5px;
   padding: 10px;
   color: var(--primary-color);
-}
-
-p#error_1_id_username,
-p#error_2_id_username,
-p#error_1_id_password1,
-p#error_2_id_password1,
-p#error_3_id_password1,
-p#error_1_id_password2,
-p#error_2_id_password2,
-p#error_3_id_password2 {
-  color: var(--error-color);
 }
 
 #signin_error {
@@ -286,7 +279,7 @@ p#error_3_id_password2 {
 }
 
 .account-section .about .info .value {
-  color: var(--complementary-color);
+  color: var(--text-color);
   font-weight: 600;
   font-size: 1rem;
   margin: 10px 0px;
@@ -309,12 +302,12 @@ p#error_3_id_password2 {
 }
 
 .account-section .about .info .wallet .amount {
-  color: var(--complementary-color);
+  color: var(--primary-color);
   padding: 10px;
   text-align: center;
   font-weight: 600;
   font-size: 1rem;
-  background-color: var(--text-color);
+  background-color: var(--secondary-color);
   border-radius: 5px;
   margin: 0px 5px;
 }
