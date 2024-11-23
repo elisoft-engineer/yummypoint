@@ -1,14 +1,32 @@
-{% extends 'core/core.html' %} {% block content %} {% load crispy_forms_tags %}
-<section class="signin-section">
-  <form method="post">
-    {% csrf_token %}
-    <div class="heading">
-      <h1>Sign In to your account</h1>
+{% load crispy_forms_tags %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Sign In</title>
+  <link rel="stylesheet" href="{% static 'css/panel.css' %}">
+</head>
+<body>
+  {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+            <div class="message message-{{message.tags}}">{{ message }}</div>
+        {% endfor %}
     </div>
-    {{ form|crispy }} {% if error_msg %}
-    <div id="signin_error">{{error_msg}}</div>
-    {% endif %}
-    <input class="signin-button" type="submit" value="Sign In" />
-  </form>
-</section>
-{% endblock content %}
+  {% endif %}
+  <section class="signin-section">
+    <form method="post" class="form">
+      {% csrf_token %}
+      <div class="heading">
+        <h1>Sign In to your account</h1>
+      </div>
+      {{ form|crispy }} {% if error_msg %}
+      <div id="signin_error">{{error_msg}}</div>
+      {% endif %}
+      <input class="signin-btn" type="submit" value="Sign In" />
+    </form>
+  </section>
+</body>
+</html>
