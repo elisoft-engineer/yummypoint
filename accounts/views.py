@@ -6,10 +6,10 @@ from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.generic import View
-from django.http import QueryDict
 from core import settings
 from django.utils.decorators import method_decorator
-from .decorators import customer_required, admin_required
+from .decorators import customer_required
+from PIL import Image
 
 """
 customer authentication views ... CustomerSignup, CustomerSignin and CustomerUpdate
@@ -43,7 +43,7 @@ class CustomerSignup(View):
             customer.phone.region = request.region_code if request.region_code else 'KE'
 
             customer.save()
-            customer_group, created = Group.objects.get_or_create(name='Customer')
+            customer_group, _ = Group.objects.get_or_create(name='Customer')
             customer.groups.add(customer_group)
             """
             Log in the customer after creation of account instead of having them 
@@ -127,8 +127,8 @@ class AdminSignup(View):
             """
             admin.is_staff = True
             admin.save()
-            admin_group, created = Group.objects.get_or_create(name='Admin')
-            admin.groups.add(admin_group)
+            admin_group, _ = Group.objects.get_or_create(name='Admin')
+            admin.group = admin_group
             """
             Log in the admin after creation of account instead of having them 
             type the credentials
@@ -191,12 +191,13 @@ class Account(View):
         return render(request, self.template_name, {
             "title" : "Update Account",
             "form" : self.form_class(instance=self.customer),
+            "user": self.customer
         })
     
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST, request.FILES, instance=self.customer)
         if form.is_valid():
-            form.save()
+            customer = form.save()
             messages.success(request, "Account updated successfully")
             return redirect(reverse("account"))
         return render(request, self.template_name, {
