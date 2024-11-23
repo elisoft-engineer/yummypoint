@@ -3,60 +3,59 @@
   
   <div class="about">
     <div class="image">
-      <img src="{{user.profile.image.url}}" alt="Customer Profile Image" />
+      <img src="{{user.image.url}}" alt="Customer Profile Image" />
     </div>
     <div class="info">
-      <div class="value">{{ user.email }}</div>
-      {% if user.is_customer %}
-        <div class="value">{{ user.first_name }} {{ user.last_name }}</div>
-        <div class="value">{{ user.phone }}</div>
-        <div class="wallet">
-          <div class="heading"><h3>Wallet</h3></div>
-          {% if user.wallet is None %}
-          <div class="amount">KES 0</div>
-          {% else %}
-          <div class="amount">KES {{user.wallet}}</div>
-          {% endif %}
-          <div class="add"><a href="{% url 'topup' %}">Top up</a></div>
-        </div>
-      {% else %}
-        <div class="value">{{ user.employee_id }}</div>
+      <div class="value email">{{ user.email }}</div>
+
+      <div class="value phone">{{ user.phone.as_international }}</div>
+
+      {% if user.first_name and user.last_name %}
+        <div class="value name">{{ user.first_name }} {{ user.last_name }}</div>
       {% endif %}
+
+      <div class="wallet">
+        <div class="heading"><h3>Wallet</h3></div>
+        {% if user.wallet is None %}
+        <div class="amount">KES 0</div>
+        {% else %}
+        <div class="amount">KES {{user.wallet}}</div>
+        {% endif %}
+        <div class="add"><a href="{% url 'topup' %}">Top up</a></div>
+      </div>
     </div>
   </div>
         
-  {% if user.is_customer %}
-    <div class="orders">
-      <div class="heading">
-        <h3>Order History</h3>
-        <a href="{% url 'pay_all' %}">Pay All</a>
-      </div>
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Item</th>
-            <th>Price</th>
-            <th>Status</th>
-            <th>Pay</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for order in user.orders.all %}
-          <tr>
-            <td>{{ order.date }}</td>
-            <td>{{ order.item.name }}</td>
-            <td>{{ order.amount }}</td>
-            <td class="order-status">{{ order.get_status_display }}</td>
-            {% if order.status == order_status_pending %}
-            <td class="pay"><a href="{% url 'pay' order.id %}">Pay Now</a></td>
-            {% endif %}
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+  <div class="orders">
+    <div class="heading">
+      <h3>Order History</h3>
+      <a href="{% url 'pay_all' %}">Pay All</a>
     </div>
-  {% endif %}
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Item</th>
+          <th>Price</th>
+          <th>Status</th>
+          <th>Pay</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for order in user.orders.all %}
+        <tr>
+          <td>{{ order.date }}</td>
+          <td>{{ order.item.name }}</td>
+          <td>{{ order.amount }}</td>
+          <td class="order-status">{{ order.get_status_display }}</td>
+          {% if order.status == order_status_pending %}
+          <td class="pay"><a href="{% url 'pay' order.id %}">Pay Now</a></td>
+          {% endif %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 
   <div class="form">
     <form method="post" enctype="multipart/form-data">
