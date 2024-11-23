@@ -1,0 +1,113 @@
+@import url(theme.css);
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+/* messages */
+
+.messages {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    width: 98%;
+  }
+  
+  .message {
+    font-size: 1rem;
+    width: 60%;
+    border-radius: 5px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-color);
+    font-weight: 600;
+    border: none;
+    font-family: "Noto Sans Mono", sans-serif;
+  }
+  
+  .message-success {
+    background-color: var(--complementary-color);
+  }
+  
+  .message-error {
+    background-color: var(--error-color);
+  }
+  
+  .message-info {
+    background-color: #00ffff;
+  }
+
+/* auth */
+
+.signin-section {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--background-color);
+}
+
+.signin-section .form {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid var(--complementary-color);
+    background-color: var(--background-color);
+}
+
+.signin-section .form .heading {
+    color: var(--text-color);
+    font-size: 1rem;
+    font-family: "Noto Sans Mono", sans-serif;
+    text-align: center;
+}
+
+.signin-section .form #div_id_email,
+.signin-section .form #div_id_password {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+.signin-section .form label {
+    font-size: small;
+    color: var(--text-color);
+    font-family: "Noto Sans Mono", sans-serif;
+    margin-bottom: 5px;
+}
+
+.signin-section .form .form-control {
+    padding: 5px 8px;
+    font-size: 1rem;
+    font-family: "Noto Sans Mono", sans-serif;
+    border: 1px solid var(--complementary-color);
+    background-color: var(--background-color);
+}
+
+.signin-section .form .signin-btn {
+    font-family: "Noto Sans Mono", sans-serif;
+    font-size: 0.9rem;
+    width: 100%;
+    padding: 5px;
+    border: none;
+    color: var(--text-color);
+    background-color: var(--primary-color);
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
+}
+
+.signin-section .form .signin-btn:hover {
+    color: var(--primary-color);
+    background-color: var(--secondary-color);
+}
+
+.signin-section .form .alert ul li {
+    color: var(--error-color);
+    font-family: "Noto Sans Mono", sans-serif;
+    font-size: 0.9rem;
+}
+
