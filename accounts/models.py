@@ -73,14 +73,6 @@ class Customer(User):
     last_name = models.CharField(max_length=150, blank=True)
     wallet = models.DecimalField(decimal_places=2, max_digits=10, validators=[MinValueValidator(0.00)], default=0.00)
     image = models.ImageField(upload_to="accounts/profile", default="accounts/profile/default.png")
-
-    def phone_to_python(self):
-        if self.phone is None:
-            return self.Phone
-        code_length = 3
-        code = self.phone[:code_length]
-        number = self.phone[code_length:]
-        return code, number
     
 class Admin(User):
     employee_id = models.IntegerField(validators=[MinValueValidator(1)], unique=True)
