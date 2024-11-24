@@ -1,5 +1,7 @@
 from pathlib import Path
-import os, environ
+import os
+import environ
+from datetime import timedelta
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,10 +28,11 @@ INSTALLED_APPS = [
     'feedback.apps.FeedbackConfig',
     'orders.apps.OrdersConfig',
     'panel.apps.PanelConfig',
-    'jazzmin',
+    'api.apps.ApiConfig',
+    'notifications.apps.NotificationsConfig',
+    'phonenumber_field',
     'crispy_forms',
     'crispy_bootstrap5',
-    'phonenumber_field',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -52,7 +55,10 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'accounts.middlewares.RegionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
+
+CORS_ALLOWED_ORIGINS = []
 
 ROOT_URLCONF = 'core.urls'
 
@@ -102,6 +108,32 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Yummy Point API',
+    'DESCRIPTION': 'Yummy Point API is used for various crud operations on the server',
+    'VERSION': '1.0.0',
+    'COMPONENT_SPLIT_REQUEST': True,
+}
+
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=env.int('ACCESS_TOKEN_LIFETIME')),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=env.int('REFRESH_TOKEN_LIFETIME')),
+    'ROTATE_REFRESH_TOKENS': False,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'UPDATE_LAST_LOGIN': False,
+}
+
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -109,6 +141,8 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
+
+GEOIP_PATH = os.path.join(BASE_DIR, 'geoip')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
