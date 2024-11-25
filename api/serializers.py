@@ -6,6 +6,9 @@ from django.contrib.auth.hashers import make_password
 from rest_framework import serializers
 from phonenumber_field.phonenumber import PhoneNumber
 from phonenumber_field.serializerfields import PhoneNumberField as DRFPhoneNumberField
+from decimal import Decimal
+from django.contrib.auth.password_validation import MinimumLengthValidator, NumericPasswordValidator
+from django.core.exceptions import ValidationError
 
 
 """
@@ -48,7 +51,7 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
                 'phone': str(customer.phone),
                 'address': customer.address,
                 'wallet': str(customer.wallet),
-                'image_url': customer.image.url,
+                'image': customer.image.url,
             })
 
         # If user is a admin, add admin-specific fields
@@ -62,3 +65,155 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         data.update(user_data)
 
         return data
+
+    
+class PhoneNumberSerializerField(DRFPhoneNumberField):
+    def to_representation(self, value):
+        if isinstance(value, PhoneNumber):
+            return str(value)
+        return super().to_representation(value)
+
+    def to_internal_value(self, data):
+        return super().to_internal_value(data)
+
+
+class CustomerSerializer(serializers.ModelSerializer):
+    phone = PhoneNumberSerializerField()
+    wallet = serializers.DecimalField(max_digits=10, decimal_places=2, min_value=Decimal('0.00'))
+    class Meta:
+        model = Customer
+        fields = ['id', 'email', 'phone', 'first_name', 'last_name', 'address', 'wallet', 'image', 'is_active', 'date_joined']
+
+
+class CustomerCreateSerializer(serializers.ModelSerializer):
+    phone = PhoneNumberSerializerField()
+    image = serializers.ImageField(required=False)
+
+    class Meta:
+        model = Customer
+        fields = ['email', 'phone', 'first_name', 'last_name', 'address', 'image', 'password']
+
+    def validate(self, attrs):
+        if Customer.objects.filter(email=attrs['email']).exists():
+            raise serializers.ValidationError({'email': 'A customer with this email already exists.'})
+
+        if Customer.objects.filter(phone=attrs['phone']).exists():
+            raise serializers.ValidationError({'phone': 'A customer with this phone already exists.'})
+
+        return attrs
+
+    def create(self, validated_data):
+        validated_data['password'] = make_password(validated_data.get('password'))
+        return super().create(validated_data)
+
+
+
+class CustomerUpdateSerializer(serializers.ModelSerializer):
+    phone = PhoneNumberSerializerField()
+    image = serializers.ImageField(required=False)
+
+    class Meta:
+        model = Customer
+        fields = ['email', 'phone', 'first_name', 'last_name', 'address', 'image']
+
+    def validate_email(self, value):
+        """
+        Ensure the email is unique (excluding the current instance).
+        """
+        if Customer.objects.filter(email=value).exclude(id=self.instance.id).exists():
+            raise serializers.ValidationError("A customer with this email already exists.")
+        return value
+
+    def validate_phone(self, value):
+        """
+        Ensure the phone number is unique (excluding the current instance).
+        """
+        if Customer.objects.filter(phone=value).exclude(id=self.instance.id).exists():
+            raise serializers.ValidationError("A customer with this phone number already exists.")
+        return value
+
+
+
+"""
+Admin Serializers
+"""
+
+
+class AdminSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Admin
+        fields = ['id', 'email', 'employee_id', 'is_active', 'date_joined']
+
+
+class AdminCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Admin
+        fields = ['email', 'employee_id', 'password']
+
+    def validate_email(self, value):
+        """
+        Ensure the email is unique.
+        """
+        if Admin.objects.filter(email=value).exists():
+            raise serializers.ValidationError("An admin with this email already exists.")
+        return value
+
+    def validate_employee_id(self, value):
+        """
+        Ensure the employee_id is unique.
+        """
+        if Admin.objects.filter(employee_id=value).exists():
+            raise serializers.ValidationError("An admin with this employee ID already exists.")
+        return value
+
+    def validate_password(self, value):
+        """
+        Validate password complexity.
+        """
+        validators = [MinimumLengthValidator(), NumericPasswordValidator()]
+        for validator in validators:
+            try:
+                validator.validate(password=value, user=None)
+            except ValidationError as e:
+                raise serializers.ValidationError(e.messages)
+        return value
+
+    def create(self, validated_data):
+        """
+        Use make_password to hash the password.
+        """
+        validated_data['password'] = make_password(validated_data.get('password'))
+        return super().create(validated_data)
+
+
+
+class AdminUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Admin
+        fields = ['email']
+
+    def validate_email(self, value):
+        """
+        Ensure the email is unique (excluding the current instance).
+        """
+        if Admin.objects.filter(email=value).exclude(id=self.instance.id).exists():
+            raise serializers.ValidationError("An admin with this email already exists.")
+        return value
+
+
+
+class EnumField(serializers.Field):
+    def __init__(self, enum_class, *args, **kwargs):
+        self.enum_class = enum_class
+        super().__init__(*args, **kwargs)
+
+    def to_representation(self, value):
+        if isinstance(value, self.enum_class):
+            return value.value
+        return str(value)
+
+    def to_internal_value(self, data):
+        try:
+            return self.enum_class(data)
+        except ValueError:
+            raise serializers.ValidationError(f"Invalid value for enum {self.enum_class.__name__}: {data}")
