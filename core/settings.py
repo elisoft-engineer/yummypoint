@@ -19,7 +19,7 @@ SECRET_KEY = env('SECRET_KEY')
 ALLOWED_HOSTS = []
 
 
-# Application definition
+AUTH_USER_MODEL = 'accounts.User'
 
 INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'crispy_forms',
     'crispy_bootstrap5',
+    'drf_spectacular',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
