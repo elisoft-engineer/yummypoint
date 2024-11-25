@@ -8,6 +8,7 @@ from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView, Sp
 urlpatterns = [
     #admin urls
     path('admin/', include('panel.urls')),
+    path('api/', include('api.urls')),
     #core urls
     path('', core_views.Index.as_view(), name="index"),
     path('about/', core_views.About.as_view(), name="about"),
