@@ -9,6 +9,8 @@ from phonenumber_field.serializerfields import PhoneNumberField as DRFPhoneNumbe
 from decimal import Decimal
 from django.contrib.auth.password_validation import MinimumLengthValidator, NumericPasswordValidator
 from django.core.exceptions import ValidationError
+from feedback.models import ContactMessage, MessageStatus
+from inventory.models import Inventory, Supplier
 
 
 """
@@ -217,3 +219,62 @@ class EnumField(serializers.Field):
             return self.enum_class(data)
         except ValueError:
             raise serializers.ValidationError(f"Invalid value for enum {self.enum_class.__name__}: {data}")
+        
+    def get_schema(self):
+        return {
+            "type": "string",
+            "enum": [e.value for e in self.enum_class],
+        }
+
+
+class MessageSerializer(serializers.ModelSerializer):
+    status = EnumField(enum_class=MessageStatus)
+    class Meta:
+        model = ContactMessage
+        fields = ["id", "name", "email", "message", "status", "sent_at"]
+
+
+class MessageCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ContactMessage
+        fields = ["name", "email", "message"]
+
+
+class InventorySerializer(serializers.ModelSerializer):
+    price = serializers.DecimalField(max_digits=10, decimal_places=2, min_value=Decimal('0.01'))
+    class Meta:
+        model = Inventory
+        fields = ["id", "name", "quantity", "price", "date", "supplier"]
+
+class InventoryCreateSerializer(serializers.ModelSerializer):
+    price = serializers.DecimalField(max_digits=10, decimal_places=2, min_value=Decimal('0.01'))
+    class Meta:
+        model = Inventory
+        fields = ["name", "quantity", "price", "supplier"]
+
+
+
+class InventoryUpdateSerializer(serializers.ModelSerializer):
+    price = serializers.DecimalField(max_digits=10, decimal_places=2, min_value=Decimal('0.01'))
+    class Meta:
+        model = Inventory
+        fields = ["name", "quantity", "price", "supplier"]
+
+
+
+class SupplierSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Supplier
+        fields = ["id", "name", "location"]
+
+
+class SupplierCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Supplier
+        fields = ["name", "location"]
+
+
+class SupplierUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Supplier
+        fields = ["name", "location"]
