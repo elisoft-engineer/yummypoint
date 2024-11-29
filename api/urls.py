@@ -22,4 +22,13 @@ urlpatterns = [
     # suppliers
     path('suppliers/', views.SupplierList.as_view(), name="api-supplier-list"),
     path('suppliers/<uuid:pk>/', views.SupplierDetail.as_view(), name="api-supplier-detail"),
+    # menu
+    path('menu/', views.MenuList.as_view(), name="api-menu-list"),
+    path('menu/<uuid:pk>/', views.MenuDetail.as_view(), name="api-menu-detail"),
+    # categories
+    path('categories/', views.CategoryList.as_view(), name="api-category-list"),
+    path('categories/<uuid:pk>/', views.CategoryDetail.as_view(), name="api-category-detail"),
+    # reviews
+    path('reviews/', views.ReviewList.as_view(), name="api-review-list"),
+    path('reviews/<uuid:pk>/', views.ReviewDetail.as_view(), name="api-review-detail"),
 ]
