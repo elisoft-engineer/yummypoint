@@ -11,6 +11,7 @@ from django.contrib.auth.password_validation import MinimumLengthValidator, Nume
 from django.core.exceptions import ValidationError
 from feedback.models import ContactMessage, MessageStatus
 from inventory.models import Inventory, Supplier
+from menu.models import Menu, Category, Review
 
 
 """
@@ -278,3 +279,60 @@ class SupplierUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Supplier
         fields = ["name", "location"]
+
+        
+class MenuBaseSerializer(serializers.ModelSerializer):
+    price = serializers.DecimalField(max_digits=10, decimal_places=2, min_value=Decimal('0.01'))
+
+
+class MenuSerializer(MenuBaseSerializer):
+    class Meta:
+        model = Menu
+        fields = ["id", "name", "description", "price", "category", "image", "thumbnail"]
+
+
+class MenuCreateSerializer(MenuBaseSerializer):
+    class Meta:
+        model = Menu
+        fields = ["name", "description", "price", "category", "image"]
+
+
+class MenuUpdateSerializer(MenuBaseSerializer):
+    class Meta:
+        model = Menu
+        fields = ["name", "description", "price", "category", "image"]
+
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ["id", "name"]
+
+
+class CategoryCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ["name"]
+
+
+class ReviewBaseSerializer(serializers.ModelSerializer):
+    rating = serializers.IntegerField(min_value=1, max_value=5)
+
+
+class ReviewSerializer(ReviewBaseSerializer):
+    class Meta:
+        model = Review
+        fields = ["id", "item", "rating", "content", "reviewer", "date"]
+
+
+class ReviewCreateSerializer(ReviewBaseSerializer):
+    class Meta:
+        model = Review
+        fields = ["item", "content", "rating"]
+
+
+class ReviewUpdateSerializer(ReviewBaseSerializer):
+    class Meta:
+        model = Review
+        fields = ["item", "content", "rating"]
+
