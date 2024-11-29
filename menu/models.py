@@ -2,7 +2,7 @@ from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 import uuid
 from django.utils import timezone
-from accounts.models import User
+from accounts.models import Customer
 
 class Menu(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
@@ -24,7 +24,7 @@ class Review(models.Model):
     item = models.ForeignKey(Menu, on_delete=models.CASCADE, related_name='reviews')
     rating = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
     content = models.TextField()
-    reviewer = models.ForeignKey(User, on_delete=models.CASCADE)
+    reviewer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     date = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
