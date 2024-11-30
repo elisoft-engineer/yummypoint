@@ -477,13 +477,13 @@ class MenuList(APIView):
     def get_permissions(self):
         if self.request.method == 'POST':
             return [IsAdmin()]
-        return [IsAuthenticated]
+        return [IsAuthenticated()]
 
     def get(self, request):
         """
         Handle GET request to fetch all menu items.
         """
-        category_id = request.query_params.get('category_id', None)
+        category_id = request.query_params.get('category', None)
         if category_id is not None:
             try:
                 category =  Category.objects.get(id=category_id)
@@ -502,7 +502,7 @@ class MenuList(APIView):
         """
         serializer = self.get_serializer_class()(data=request.data)
         if serializer.is_valid():
-            menu = serializer.save(commit=False)
+            menu = serializer.save()
             image_file = request.FILES.get('image')
             if image_file:
                 img = Image.open(image_file)
@@ -664,8 +664,8 @@ class ReviewList(APIView):
     
     def get_permissions(self):
         if self.request.method == 'POST':
-            return [IsAdmin()]
-        return [IsCustomer()]
+            return [IsCustomer()]
+        return [IsAuthenticated()]
     
     def get(self, request):
         menu_id = request.query_params.get('menu_id', None)
@@ -683,9 +683,11 @@ class ReviewList(APIView):
     def post(self, request):
         serializer = self.get_serializer_class()(data=request.data)
         if serializer.is_valid():
-            review = serializer.save(commit=False)
-            review.reviewer = self.request.user
-            review.save()
+            try:
+                customer = Customer.objects.get(id=self.request.user.id)
+                review = serializer.save(reviewer=customer)
+            except Customer.DoesNotExist:
+                return Response({"detail": "Access Denied"}, status=status.HTTP_403_FORBIDDEN)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
