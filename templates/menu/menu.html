@@ -15,8 +15,8 @@
     <nav class="categories">
       <a href="{% url 'menu' %}" class="category-link"> All </a>
       {% for category in categories %}
-      <a href="{% url 'menu_by_category' category.id %}" class="category-link">
-        {{ category.name }}
+      <a href="{% url 'menu-by-category' category.id %}" class="category-link">
+        {{ category.name.title }}
       </a>
       {% endfor %}
     </nav>
@@ -26,15 +26,15 @@
       <div class="items" id="menu-items-container">
         {% for item in items %}
         <div class="card-container">
-          <a href="{% url 'menu_item' item.id %}">
+          <a href="{% url 'menu-item' item.id %}">
             <div class="card">
               <img
                 src="{{item.image.url}}"
                 alt="{{item.name}} image"
                 class="image"
               />
-              <div class="name">{{ item.name }}</div>
-              <div class="price">Price :KES{{ item.price }}</div>
+              <div class="name">{{ item.name.title }}</div>
+              <div class="price">KES{{ item.price }}</div>
               <div class="order">
                 <a href="{% url 'order' item.id %}" class="link">Order Now</a>
               </div>
