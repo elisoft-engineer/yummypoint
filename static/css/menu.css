@@ -58,7 +58,7 @@
   flex-direction: row;
   padding: 0%;
   padding-bottom: 15px;
-  justify-content: space-between;
+  justify-content: flex-start;
   overflow-x: auto;
   white-space: nowrap;
 }
@@ -377,4 +377,174 @@
   background-color: var(--text-color);
   color: var(--background-color);
   transition: 0.3s all ease;
+}
+
+.menu-item-section {
+  width: 80%;
+  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu-item-section .heading {
+  text-align: center;
+  padding: 0px;
+  width: 100%;
+}
+
+.menu-item-section .heading h1 {
+  color: var(--primary-color);
+  font-weight: 800;
+  width: 100%;
+  padding: 10px;
+  font-size: 1.5rem;
+  border: 1px solid var(--primary-color);
+  border-radius: 0px 0px 20px 20px;
+
+}
+
+.menu-item-section .body {
+  display: flex;
+  flex-direction: row;
+  background-color: var(--card-background);
+  border-radius: 20px;
+  justify-content: space-between;
+  border: 1px solid var(--primary-color);
+}
+
+.menu-item-section .body .image,
+.menu-item-section .body .details {
+  flex-basis: 48%;
+}
+
+.menu-item-section .body .image img {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 20px;
+}
+
+.menu-item-section .body .details {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.menu-item-section .body .details .buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 10px;
+  align-items: center;
+  margin: 20px 0px;
+  transition: all 0.3s ease-in-out;
+}
+
+.menu-item-section .body .details .buttons .btn {
+  padding: 8px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.menu-item-section .body .details .buttons .price {
+  background-color: var(--background-color);
+  color: var(--complementary-color);
+  border: 1px solid var(--complementary-color);
+}
+
+.menu-item-section .body .details .buttons .order {
+  color: #404040;
+  background-color: var(--primary-color);
+  
+}
+
+.menu-item-section .body .details .buttons .order:hover {
+  color: var(--primary-color);
+  background-color: var(--background-color);
+  border: 1px solid var(--primary-color);
+}
+
+.menu-item-section .body .details .buttons .add-review {
+  color: #404040;
+  background-color: var(--complementary-color);
+}
+
+.menu-item-section .body .details .buttons .add-review:hover {
+  color: var(--background-color);
+  background-color: var(--secondary-color);
+}
+
+.menu-item-section .body .details .description {
+  font-weight: 600;
+  color: var(--text-color);
+  padding: 10px;
+}
+
+.menu-item-section .body .details .reviews .review {
+  padding: 10px;
+  margin-top: 10px;
+}
+
+.menu-item-section .body .details .reviews .review {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  background-color: var(--background-color);
+  border-radius: 10px;
+  padding: 5px;
+}
+
+.menu-item-section .body .details .reviews .review .image {
+  position: relative;
+  flex-basis: 20%;
+  margin-right: 10px;
+}
+
+.menu-item-section .body .details .reviews .review .image img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 50%;
+}
+
+.menu-item-section .body .details .reviews .review .right .top {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.menu-item-section .body .details .reviews .review .right .top .left .name {
+  color: var(--text-color);
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+
+.menu-item-section .body .details .reviews .review .right .top .left .rating {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row;
+}
+
+.menu-item-section .body .details .reviews .review .right .top .left .rating i {
+  color: var(--primary-color);
+  font-size: 1rem;
+  padding: 5px 3px;
+}
+
+.menu-item-section .body .details .reviews .review .right .top .date {
+  color: var(--secondary-color);
+  margin-left: 20px;
+  font-size: 0.8rem;
+}
+
+.menu-item-section .body .details .reviews .review .right .content {
+  color: var(--text-color);
+  font-weight: 600;
+  font-size: 0.9rem;
 }
