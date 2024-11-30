@@ -9,13 +9,9 @@
     </div>
     <div class="details">
       <div class="buttons">
-        <div class="price">KES {{ item.price }}</div>
-        <div class="order">
-          <a href="{% url 'order' item.id %}">Order Now</a>
-        </div>
-        <div class="add-review">
-          <a href="{% url 'menu_review' item.id %}">Add Review</a>
-        </div>
+        <div class="price btn">KES {{ item.price }}</div>
+        <a href="{% url 'order' item.id %}" class="order btn">Order Now</a>
+        <a href="{% url 'menu-review' item.id %}" class="add-review btn">Add Review</a>
       </div>
       <div class="description">{{ item.description }}</div>
       {% if item.reviews.all %}
@@ -24,21 +20,21 @@
         <div class="review">
           <div class="image">
             <img
-              src="{{ review.reviewer.profile.image.url }}"
+              src="{{ review.reviewer.image.url }}"
               alt="Reviewer image"
             />
           </div>
           <div class="right">
             <div class="top">
               <div class="left">
-                <div class="name">{{ review.reviewer.username }}</div>
+                <div class="name">{{ review.reviewer.email }}</div>
                 <div class="rating">
                   {% for _ in "x"|ljust:review.rating %}
-                  <span class="fas fa-star" style="color: #ffaa00"></span>
+                  <i class="fas fa-star"></i>
                   {% endfor %}
                 </div>
               </div>
-              <div class="date"><small>{{ review.date }}</small></div>
+              <small class="date">{{ review.get_humanized_time }}</small>
             </div>
             <div class="content">{{ review.content }}</div>
           </div>
