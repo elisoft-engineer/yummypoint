@@ -6,14 +6,7 @@ class IsCustomer(BasePermission):
     Allows access only to Customers.
     """
     def has_permission(self, request, view):
-        if not request.user.is_authenticated:
-            return False
-        
-        try:
-            Customer.objects.get(email=request.user.email)
-            return True
-        except Customer.DoesNotExist:
-            return False
+        return request.user.is_authenticated and request.user.is_customer
 
 
 class IsAdmin(BasePermission):
@@ -21,14 +14,7 @@ class IsAdmin(BasePermission):
     Allows access only to Admins.
     """
     def has_permission(self, request, view):
-        if not request.user.is_authenticated:
-            return False
-        
-        try:
-            Admin.objects.get(email=request.user.email)
-            return True
-        except Admin.DoesNotExist:
-            return False
+        return request.user.is_authenticated and request.user.is_admin
 
 
 class IsCustomerOrAdmin(BasePermission):
