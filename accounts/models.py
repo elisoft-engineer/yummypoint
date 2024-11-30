@@ -63,7 +63,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     
     @property
     def is_customer(self):
-        return self.groups.name == "Customer"
+        return self.group.name == "Customer"
 
 
 class Customer(User):
