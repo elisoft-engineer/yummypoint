@@ -31,4 +31,9 @@ urlpatterns = [
     # reviews
     path('reviews/', views.ReviewList.as_view(), name="api-review-list"),
     path('reviews/<uuid:pk>/', views.ReviewDetail.as_view(), name="api-review-detail"),
+    # cart
+    path('cart/', views.CartView.as_view(), name="api-cart-view"),
+    # orders
+    path('orders/', views.OrderList.as_view(), name="api-order-list"),
+    path('orders/<uuid:pk>/', views.OrderDetail.as_view(), name="api-order-detail"),
 ]
