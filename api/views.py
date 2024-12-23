@@ -11,7 +11,7 @@ from .serializers import CustomTokenObtainPairSerializer, CustomerSerializer, Cu
     MessageCreateSerializer, MessageSerializer, InventoryCreateSerializer, InventorySerializer, \
     InventoryUpdateSerializer, SupplierSerializer, SupplierCreateSerializer, SupplierUpdateSerializer, \
     CategorySerializer, CategoryCreateSerializer, MenuSerializer, MenuCreateSerializer, \
-    MenuUpdateSerializer, ReviewSerializer, ReviewCreateSerializer, ReviewUpdateSerializer
+    MenuUpdateSerializer, ReviewSerializer, ReviewCreateSerializer, ReviewUpdateSerializer, CartSerializer, OrderSerializer, OrderItemSerializer
 from feedback.models import MessageStatus, ContactMessage
 from .permissions import IsAdmin, IsCustomerOrAdmin, IsCustomer
 from accounts.models import Customer, Admin
@@ -21,6 +21,9 @@ from menu.models import Menu, Category, Review
 from PIL import Image
 from io import BytesIO
 from django.core.files.base import ContentFile
+from orders.models import Order, OrderStatus, OrderItem
+from django.db import transaction
+from django.db.models import Sum
 
 
 """
@@ -736,7 +739,200 @@ class ReviewDetail(APIView):
         Delete a review.
         """
         review = self.get_object(pk)
-        if review.reviewer.id != self.request.user.id:
+        if review.reviewer.id != request.user.id:
             return Response({"detail": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
         review.delete()
         return Response({"detail": "Review deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
+    
+
+class CartView(APIView):
+    """
+    Endpoints for add and removing items from the customer's cart
+    """
+
+    permission_classes = [IsAuthenticated, IsCustomer]
+    allowed_methods = ['GET', 'PATCH', 'DELETE']
+    
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            return CartSerializer
+        return None
+    
+    def get(self, request):
+        customer = Customer.objects.get(id=request.user.id)
+        serializer = self.get_serializer_class()(customer.cart)
+        return Response(serializer.data)
+    
+    def patch(self, request):
+        customer = Customer.objects.get(id=request.user.id)
+        reduce = request.query_params.get('reduce', None)
+        menu_id = request.query_params.get('menu_id', None)
+        
+        try:
+            menu_item = Menu.objects.get(id=menu_id)
+        except Menu.DoesNotExist:
+            return Response({"detail": "Menu item not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+        detail = ""
+        if reduce and reduce.lower() in ["true", "yes"]:
+            try:
+                customer.cart.reduce_item(menu_item)
+            except ValueError as e:
+                return Response({"detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            detail = "Item quantity reduced from the cart"
+        else:
+            customer.cart.add_item(menu_item)
+            detail = "Item successfully added to cart"
+        
+        return Response({"detail": detail})
+    
+    def delete(self, request):
+        customer = Customer.objects.get(id=request.user.id)
+        remove_all = request.query_params.get("remove_all", None)
+        if remove_all:
+            customer.cart.clear_cart()
+            return Response({"detail": "Cart successfully cleared"})
+        
+        menu_id = request.query_params.get('menu_id', None)
+        try:
+            menu_item = Menu.objects.get(id=menu_id)
+            try:
+                customer.cart.remove_item(menu_item)
+            except ValueError as e:
+                return Response({"detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        except Menu.DoesNotExist:
+            return Response({"detail": "Menu item not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+        return Response({"detail": "Cart item removed"})
+
+
+class OrderList(APIView):
+    """
+    Endpoint for retrieving a list of orders and creating new orders
+    """
+
+    allowed_methods = ['GET', 'POST', 'PATCH']
+
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            return [IsAuthenticated()]
+        return [IsCustomer()]
+    
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            return None
+        return OrderSerializer
+    
+    def get(self, request):
+        pending = request.query_params.get("pending", None)
+        try:
+            customer = Customer.objects.get(id=request.user.id)
+        except Customer.DoesNotExist:
+            pass
+
+        if pending:
+            if pending.lower() in ['true', 'yes', '1']:
+                if request.user.is_admin:
+                    orders = Order.objects.filter(status=OrderStatus.PENDING)
+                else:
+                    orders = customer.orders.filter(status=OrderStatus.PENDING)
+            else:
+                if request.user.is_admin:
+                    orders = Order.objects.filter(status=OrderStatus.PAID)
+                else:
+                    orders = customer.orders.filter(status=OrderStatus.PAID)
+        else:
+            if request.user.is_admin:
+                orders = Order.objects.all()
+            else:
+                orders = customer.orders.all()
+        
+        serializer = self.get_serializer_class()(orders, many=True)
+        return Response(serializer.data)
+    
+    # only customers can create an order
+    def post(self, request):
+        """
+        Create an order from a cart
+        """
+        customer = Customer.objects.get(id=request.user.id)
+        cart = customer.cart
+        if not cart.items.exists():
+            return Response({"detail": "Cannot create an order from an empty cart"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        order = Order(customer=customer, amount=cart.total_price)
+        order.save()
+        for cart_item in cart.items.all():
+            OrderItem.objects.create(
+                order=order,
+                menu=cart_item.menu,
+                quantity=cart_item.quantity,
+                price=cart_item.menu.price
+            )
+        cart.clear_cart()
+        return Response({"detail": "Order created successfully"}, status=status.HTTP_201_CREATED)
+
+    def patch(self, request):
+        customer = Customer.objects.get(id=request.user.id)
+        orders = customer.orders.filter(status=OrderStatus.PENDING)
+        total_dict = orders.aggregate(total=Sum('amount'))
+        total = total_dict['total'] if total_dict['total'] is not None else 0
+
+        if total > customer.wallet:
+            return Response({"detail", "Payment unsuccessful"}, status=status.HTTP_204_NO_CONTENT)
+        with transaction.atomic():
+            customer.wallet -= total
+            customer.save()
+            orders.update(status=OrderStatus.PAID)
+        return Response({"detail": "Payment made successfully"}, status=status.HTTP_200_OK)
+
+
+class OrderDetail(APIView):
+    """
+    Endpoint for retrieving and modifying an order instance
+    """
+
+    allowed_methods = ['GET', 'PATCH', 'DELETE']
+    permission_classes = [IsAuthenticated]
+    
+    def get_serializer_class(self):
+        if self.request.method in ['PATCH', 'DELETE']:
+            return None
+        return OrderSerializer
+    
+    def get_object(self, pk):
+        return get_object_or_404(Order, pk=pk)
+    
+    def get(self, request, pk):
+        """
+        Retrieve a single order.
+        """
+        order = self.get_object(pk)
+        if order.customer.id != request.user.id and not request.user.is_admin:
+            return Response({"detail": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
+        serializer = self.get_serializer_class()(order)
+        return Response(serializer.data)
+    
+    def patch(self, request, pk):
+        order = self.get_object(pk)
+        if order.customer.id != self.request.user.id:
+            return Response({"detail": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
+        if order.customer.wallet < order.amount:
+            return Response({"detail": "Insufficient funds"}, status=status.HTTP_204_NO_CONTENT)
+
+        with transaction.atomic():
+            order.customer.wallet -= order.amount
+            order.customer.save()
+            order.status = OrderStatus.PAID
+            order.save()
+        return Response({"detail": "Payment Successful"}, status=status.HTTP_200_OK)
+    
+    def delete(self, request, pk):
+        """
+        Delete an order.
+        """
+        order = self.get_object(pk)
+        if not request.user.is_admin:
+            return Response({"detail": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
+        order.delete()
+        return Response({"detail": "Order deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
