@@ -1,5 +1,3 @@
-from datetime import timedelta
-from django.utils import timezone
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from accounts.models import Customer, Admin
 from django.contrib.auth.hashers import make_password
@@ -12,6 +10,7 @@ from django.core.exceptions import ValidationError
 from feedback.models import ContactMessage, MessageStatus
 from inventory.models import Inventory, Supplier
 from menu.models import Menu, Category, Review
+from orders.models import Cart, CartItem, Order, OrderItem, OrderStatus
 
 
 """
@@ -320,6 +319,7 @@ class ReviewBaseSerializer(serializers.ModelSerializer):
 
 
 class ReviewSerializer(ReviewBaseSerializer):
+    get_humanized_time = serializers.ReadOnlyField()
     class Meta:
         model = Review
         fields = ["id", "item", "rating", "content", "reviewer", "date", "get_humanized_time"]
@@ -336,3 +336,32 @@ class ReviewUpdateSerializer(ReviewBaseSerializer):
         model = Review
         fields = ["item", "content", "rating"]
 
+
+class CartItemSerializer(serializers.ModelSerializer):
+    subtotal = serializers.ReadOnlyField()
+    class Meta:
+        model = CartItem
+        fields = ["menu", "quantity", "subtotal"]
+
+
+class CartSerializer(serializers.ModelSerializer):
+    items = CartItemSerializer(many=True, read_only=True)
+    total_price = serializers.ReadOnlyField()
+    class Meta:
+        model = Cart
+        fields = ["customer", "items", "total_price"]
+
+class OrderItemSerializer(serializers.ModelSerializer):
+    subtotal = serializers.ReadOnlyField()
+    class Meta:
+        model = OrderItem
+        fields = ["menu", "quantity", "price", "subtotal"]
+
+
+class OrderSerializer(serializers.ModelSerializer):
+    items = OrderItemSerializer(many=True, read_only=True)
+    amount = serializers.ReadOnlyField()
+    status = EnumField(enum_class=OrderStatus)
+    class Meta:
+        model = Order
+        fields = ["id", "customer", "items", "amount", "status", "date"]
