@@ -11,7 +11,7 @@ from .serializers import CustomTokenObtainPairSerializer, CustomerSerializer, Cu
     MessageCreateSerializer, MessageSerializer, InventoryCreateSerializer, InventorySerializer, \
     InventoryUpdateSerializer, SupplierSerializer, SupplierCreateSerializer, SupplierUpdateSerializer, \
     CategorySerializer, CategoryCreateSerializer, MenuSerializer, MenuCreateSerializer, \
-    MenuUpdateSerializer, ReviewSerializer, ReviewCreateSerializer, ReviewUpdateSerializer, CartSerializer, OrderSerializer, OrderItemSerializer
+    MenuUpdateSerializer, ReviewSerializer, ReviewCreateSerializer, ReviewUpdateSerializer, CartSerializer, OrderSerializer, NotificationSerializer
 from feedback.models import MessageStatus, ContactMessage
 from .permissions import IsAdmin, IsCustomerOrAdmin, IsCustomer
 from accounts.models import Customer, Admin
@@ -24,6 +24,8 @@ from django.core.files.base import ContentFile
 from orders.models import Order, OrderStatus, OrderItem
 from django.db import transaction
 from django.db.models import Sum
+from notifications.models import Notification, NotificationStatus
+from django.urls import reverse
 
 
 """
@@ -870,6 +872,7 @@ class OrderList(APIView):
                 price=cart_item.menu.price
             )
         cart.clear_cart()
+        create_notification(customer, "Order created successfully", reverse("account"))
         return Response({"detail": "Order created successfully"}, status=status.HTTP_201_CREATED)
 
     def patch(self, request):
@@ -884,6 +887,7 @@ class OrderList(APIView):
             customer.wallet -= total
             customer.save()
             orders.update(status=OrderStatus.PAID)
+        create_notification(customer, "Orders payment successful", reverse("account"))
         return Response({"detail": "Payment made successfully"}, status=status.HTTP_200_OK)
 
 
@@ -925,6 +929,7 @@ class OrderDetail(APIView):
             order.customer.save()
             order.status = OrderStatus.PAID
             order.save()
+        create_notification(order.customer, "Order payment successful", reverse("account"))
         return Response({"detail": "Payment Successful"}, status=status.HTTP_200_OK)
     
     def delete(self, request, pk):
@@ -936,3 +941,75 @@ class OrderDetail(APIView):
             return Response({"detail": "Access Denied"}, status=status.HTTP_401_UNAUTHORIZED)
         order.delete()
         return Response({"detail": "Order deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
+
+
+class NotificationList(APIView):
+    """
+    Endpoint to handle both fetching all notifications
+    """
+
+    allowed_methods = ['GET', 'PATCH']
+    permission_classes = [IsAuthenticated]
+
+    def get_serializer_class(self):
+        if self.request.method == 'PATCH':
+            pass
+        return NotificationSerializer
+
+    def get(self, request):
+        """
+        Handle GET request to fetch all notifications
+        """
+        read = request.query_params.get('read', None)
+        if read is not None:
+            read = read.lower() in ['true', '1', 'yes']
+            notifications = request.user.notifications.filter(
+                status=NotificationStatus.READ if read else NotificationStatus.UNREAD
+            )
+        else:
+            notifications = request.user.notifications.all()
+
+        serializer = self.get_serializer_class()(notifications, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def patch(self, request):
+        """
+        Handle PATCH request to mark all the notifications as read.
+        """
+        notifications = request.user.notifications.filter(status=NotificationStatus.UNREAD)
+        if notifications.exists():
+            notifications.update(status=NotificationStatus.READ)
+            return Response({'detail': 'All notifications marked as read.'}, status=status.HTTP_200_OK)
+
+        return Response({'detail': 'No unread notifications to mark as read.'}, status=status.HTTP_204_NO_CONTENT)
+
+
+class NotificationDetail(APIView):
+    """
+    Retrieve, update, or delete a client instance.
+    """
+
+    allowed_methods = ['PATCH', 'DELETE']
+    permission_classes =  [IsAuthenticated]
+
+    def get_object(self, pk):
+        return get_object_or_404(Notification, pk=pk)
+
+    def patch(self, request, pk):
+        notification = self.get_object(pk)
+        if notification is None:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        if notification.user != request.user:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+        notification.status = NotificationStatus.READ
+        notification.save()
+        return Response({"detail": "Notification marked as read"}, status=status.HTTP_200_OK)
+
+    def delete(self, request, pk):
+        notification = self.get_object(pk)
+        if notification is None:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        if notification.user != request.user:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+        notification.delete()
+        return Response({"detail": "Notification deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
