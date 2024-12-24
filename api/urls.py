@@ -36,4 +36,7 @@ urlpatterns = [
     # orders
     path('orders/', views.OrderList.as_view(), name="api-order-list"),
     path('orders/<uuid:pk>/', views.OrderDetail.as_view(), name="api-order-detail"),
+    # notifications
+    path('notifications/', views.NotificationList.as_view(), name="api-notification-list"),
+    path('notifications/<uuid:pk>/', views.NotificationDetail.as_view(), name="api-notification-detail"),
 ]
