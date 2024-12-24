@@ -11,6 +11,7 @@ from feedback.models import ContactMessage, MessageStatus
 from inventory.models import Inventory, Supplier
 from menu.models import Menu, Category, Review
 from orders.models import Cart, CartItem, Order, OrderItem, OrderStatus
+from notifications.models import Notification, NotificationStatus
 
 
 """
@@ -365,3 +366,11 @@ class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = ["id", "customer", "items", "amount", "status", "date"]
+
+
+class NotificationSerializer(serializers.ModelSerializer):
+    status = EnumField(enum_class=NotificationStatus)
+    class Meta:
+        model = Notification
+        fields = ['id', 'message', 'user', 'link', 'status', 'created_at']
+        
