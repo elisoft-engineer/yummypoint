@@ -9,7 +9,7 @@ from django.views.generic import View
 from core import settings
 from django.utils.decorators import method_decorator
 from .decorators import customer_required
-from PIL import Image
+from notifications.utils import create_notification
 
 """
 customer authentication views ... CustomerSignup, CustomerSignin and CustomerUpdate
@@ -51,6 +51,7 @@ class CustomerSignup(View):
             """
             login(request, customer)
             messages.success(request, "Customer account created successfully")
+            create_notification(customer, "Welcome to Yummy Point")
             return redirect(reverse("menu"))
         return render(request, self.template_name, {"form" : form})
 
@@ -159,21 +160,6 @@ class AdminSignin(View):
                 return redirect(next_url or reverse(settings.ADMIN_LOGIN_REDIRECT))
             messages.error(request, "Error signing you in")
         return render(request, self.template_name, {"form" : form})
-    
-"""
-The following are supposed to be the common views among both user groups ... example, Signout
-"""
-
-class Signout(View):
-    def get(self, request, *args, **kwargs):
-        user = request.user
-        if not user.is_authenticated:
-            messages.info("No user logged in")
-            return redirect(reverse('menu'))
-        email = user.email
-        logout(request)
-        messages.info(request, f"{email} logged out")
-        return redirect(reverse('index'))
 
 
 class Account(View):
@@ -205,6 +191,23 @@ class Account(View):
             "title" : "Update Account",
         })
         
+
+
+"""
+The following are supposed to be the common views among both user groups ... example, Signout
+"""
+
+class Signout(View):
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        if not user.is_authenticated:
+            messages.info("No user logged in")
+            return redirect(reverse('menu'))
+        email = user.email
+        logout(request)
+        messages.info(request, f"{email} logged out")
+        return redirect(reverse('index'))
+
 """
 The following view handles the top up of the users wallet.
 """
