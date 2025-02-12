@@ -7,7 +7,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 """
 After overriding the default user model, we implement the UserManager for this new 
-model. I provides the methods for creating both the users and the super users.
+model. It provides the methods for creating both the users and the super users.
 """
 
 class UserManager(BaseUserManager):
