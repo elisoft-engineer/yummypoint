@@ -27,16 +27,6 @@ from django.db.models import Sum
 from notifications.models import Notification, NotificationStatus
 from django.urls import reverse
 
-
-"""
-This file handles all the views that handle api routes.
-"""
-
-
-class CustomTokenObtainPairView(TokenObtainPairView):
-    serializer_class = CustomTokenObtainPairSerializer
-
-
 """
 This file handles all the views that handle api routes.
 """
